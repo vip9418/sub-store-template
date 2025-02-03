@@ -1,8 +1,4 @@
 {
-  "api": {
-    "enabled": true,
-    "listen": "127.0.0.1:8964",
-  },
   "dns": {
     "fakeip": {
       "enabled": true,
