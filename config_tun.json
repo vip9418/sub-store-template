@@ -1,3 +1,4 @@
+
 {
   "log": {
     "disabled": false,
@@ -68,17 +69,17 @@
   
   "outbounds": [
     { "tag": "🚀 节点选择", "type": "selector", "outbounds": ["🌏 亚洲节点", "🌍 欧洲节点", "🌎 美洲节点", "🌐 大洋洲节点", "🌍 非洲节点", "🔯 香港自动", "🇭🇰 香港节点", "🇯🇵 日本节点", "🇺🇲 美国节点", "🇸🇬 新加坡节点", "🇰🇷 韩国节点", "🇬🇧 英国节点", "🇩🇪 德国节点", "🐸 手动切换", "♻️ 自动选择", "🎯 全球直连"] },
-    { "tag": "🇸🇬 新加坡节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇸🇬|SG|sg|新加坡|新|Singapore"] }] },
-    { "tag": "🇰🇷 韩国节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇰🇷|KR|kr|韩国|韩|Korea"] }] },
-    { "tag": "🇬🇧 英国节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇬🇧|GB|gb|英国|英|United Kingdom"] }] },
-    { "tag": "🇩🇪 德国节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇩🇪|DE|de|德国|德|Germany"] }] },
-    { "tag": "🇨🇦 加拿大节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇨🇦|CA|ca|加拿大|加|Canada"] }] },
-    { "tag": "🇦🇺 澳大利亚节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇦🇺|AU|au|澳大利亚|澳|Australia"] }] },
-    { "tag": "🇫🇷 法国节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇫🇷|FR|fr|法国|法|France"] }] },
-    { "tag": "🇮🇳 印度节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇮🇳|IN|in|印度|印|India"] }] },
-    { "tag": "🇷🇺 俄罗斯节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇷🇺|RU|ru|俄罗斯|俄|Russia"] }] },
-    { "tag": "🇧🇷 巴西节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇧🇷|BR|br|巴西|巴|Brazil"] }] },
-    { "tag": "🇹🇼 台湾节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇹🇼|TW|tw|台湾|台|Taiwan"] }] },
+    { "tag": "🇸🇬 新加坡节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇸🇬|SG|sg|新加坡|新|Singapore"] },
+    { "tag": "🇰🇷 韩国节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇰🇷|KR|kr|韩国|韩|Korea"] },
+    { "tag": "🇬🇧 英国节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇬🇧|GB|gb|英国|英|United Kingdom"] },
+    { "tag": "🇩🇪 德国节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇩🇪|DE|de|德国|德|Germany"] },
+    { "tag": "🇨🇦 加拿大节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇨🇦|CA|ca|加拿大|加|Canada"] },
+    { "tag": "🇦🇺 澳大利亚节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇦🇺|AU|au|澳大利亚|澳|Australia"] },
+    { "tag": "🇫🇷 法国节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇫🇷|FR|fr|法国|法|France"] },
+    { "tag": "🇮🇳 印度节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇮🇳|IN|in|印度|印|India"] },
+    { "tag": "🇷🇺 俄罗斯节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇷🇺|RU|ru|俄罗斯|俄|Russia"] },
+    { "tag": "🇧🇷 巴西节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇧🇷|BR|br|巴西|巴|Brazil"] },
+    { "tag": "🇹🇼 台湾节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇹🇼|TW|tw|台湾|台|Taiwan"] },
     { "tag": "🐠 漏网之鱼", "type": "selector", "outbounds": ["🚀 节点选择", "🎯 全球直连"] },
     { "tag": "🤖 OpenAI", "type": "selector", "outbounds": ["🚀 节点选择"] },
     { "tag": "📹 YouTube", "type": "selector", "outbounds": ["🚀 节点选择"] },
