@@ -116,7 +116,7 @@
       { "rule_set": ["geoip-cn", "geosite-cn"], "outbound": "🎯 全球直连" },
       { "rule_set": "geosite-bilibili", "outbound": "🎯 全球直连" },
       { "rule_set": ["geosite-douyin","geosite-douyu"],"outbound": "🎯 全球直连"},
-      {"rule_set": ["geosite-tracker","geosite-advertisement"],"outbound": "REJECT"},
+      { "rule_set": ["geosite-tracker","geosite-advertisement"],"outbound": "REJECT"},
       { "rule_set": ["geosite-alipay","geosite-wechatpay","geosite-bank"], "outbound": "🎯 全球直连"}
     ],
 
