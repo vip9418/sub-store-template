@@ -4,6 +4,7 @@
     "level": "info",
     "timestamp": true
   },
+  
   "experimental": {
     "clash_api": {
       "external_controller": "0.0.0.0:9090",
@@ -19,6 +20,7 @@
       "store_fakeip": false
     }
   },
+  
   "dns": {
     "servers": [
       {"tag": "proxyDns", "address": "https://dns.google/dns-query", "address_resolver": "defaultDns", "address_strategy": "ipv4_only", "detour": "🚀 节点选择"},
@@ -27,6 +29,7 @@
       {"tag": "localDns3", "address": "119.29.29.29", "address_resolver": "defaultDns", "address_strategy": "ipv4_only", "detour": "🎯 全球直连"},
       {"tag": "defaultDns", "address": "223.5.5.5", "address_strategy": "ipv4_only", "detour": "🎯 全球直连"}
     ],
+    
     "rules": [
       { "outbound": "any", "server": "defaultDns", "disable_cache": true },
       { "clash_mode": "direct", "server": "localDns" },
@@ -38,6 +41,7 @@
     "final": "localDns",
     "strategy": "ipv4_only"
   },
+  
   "inbounds": [
     {
       "type": "tun",
@@ -62,6 +66,7 @@
       "users": []
     }
   ],
+  
   "outbounds": [
     { "tag": "🚀 节点选择", "type": "selector", "outbounds": ["🌏 亚洲节点", "🌍 欧洲节点", "🌎 美洲节点", "🌐 大洋洲节点", "🌍 非洲节点", "🔯 香港自动", "🇭🇰 香港节点", "🇯🇵 日本节点", "🇺🇲 美国节点", "🇸🇬 新加坡节点", "🇰🇷 韩国节点", "🇬🇧 英国节点", "🇩🇪 德国节点", "🐸 手动切换", "♻️ 自动选择", "🎯 全球直连"] },
     { "tag": "🇸🇬 新加坡节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇸🇬|SG|sg|新加坡|新|Singapore"] }] },
@@ -82,6 +87,7 @@
     { "tag": "🐸 手动切换", "type": "direct" },
     { "tag": "♻️ 自动选择", "type": "urltest", "outbounds": ["🌏 亚洲节点", "🌍 欧洲节点", "🌎 美洲节点", "🌐 大洋洲节点", "🌍 非洲节点", "🔯 香港自动", "🇭🇰 香港节点", "🇯🇵 日本节点", "🇺🇲 美国节点", "🇸🇬 新加坡节点", "🇰🇷 韩国节点", "🇬🇧 英国节点", "🇩🇪 德国节点"], "url": "http://www.gstatic.com/generate_204", "interval": "5m" }
   ],
+  
   "route": {
     "auto_detect_interface": true,
     "final": "🐠 漏网之鱼",
@@ -119,6 +125,7 @@
       { "domain": ["telegram.org", "t.me"], "outbound": "📲 Telegram" },
       { "domain": ["apple.com", "icloud.com"], "outbound": "🍏 Apple" }
     ],
+    
     "rule_set": [
       { "tag": "geosite-chat", "type":  "remote", "format": "binary", "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/category-ai-chat-!cn.srs", "download_detour": "🚀 节点选择" },
       { "tag": "geosite-youtube", "type": "remote", "format": "binary", "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/youtube.srs", "download_detour": "🚀 节点选择" },
