@@ -79,6 +79,9 @@
     { "tag": "🇷🇺 俄罗斯节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇷🇺|RU|ru|俄罗斯|俄|Russia"] }] },
     { "tag": "🇧🇷 巴西节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇧🇷|BR|br|巴西|巴|Brazil"] }] },
     { "tag": "🇹🇼 台湾节点", "type": "selector", "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["🇹🇼|TW|tw|台湾|台|Taiwan"] }] },
+    { "tag": "🐠 漏网之鱼", "type": "selector", "outbounds": ["🚀 节点选择", "🎯 全球直连"] },
+    { "tag": "🤖 OpenAI", "type": "selector", "outbounds": ["🚀 节点选择"] },
+    { "tag": "📹 YouTube", "type": "selector", "outbounds": ["🚀 节点选择"] },
     { "tag": "🎯 全球直连", "type": "direct" },
     { "tag": "🐸 手动切换", "type": "direct" },
     { "tag": "♻️ 自动选择", "type": "urltest", "outbounds": ["🌏 亚洲节点", "🌍 欧洲节点", "🌎 美洲节点", "🌐 大洋洲节点", "🌍 非洲节点", "🔯 香港自动", "🇭🇰 香港节点", "🇯🇵 日本节点", "🇺🇲 美国节点", "🇸🇬 新加坡节点", "🇰🇷 韩国节点", "🇬🇧 英国节点", "🇩🇪 德国节点"], "url": "http://www.gstatic.com/generate_204", "interval": "5m" }
