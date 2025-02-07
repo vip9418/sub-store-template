@@ -103,7 +103,6 @@
       { "domain": ["clash.razord.top", "yacd.metacubex.one", "yacd.haishan.me", "d.metacubex.one"], "outbound": "🎯 全球直连" },
       { "domain_suffix": [".cn", ".com.cn", ".net.cn", ".org.cn"],"outbound": "🎯 全球直连"},
       { "rule_set": ["geosite-private", "geoip-private"], "outbound": "🎯 全球直连" },
-      { "rule_set": "geosite-edu", "outbound": "🎯 全球直连" },
       { "rule_set": ["geosite-steam","geosite-epicgames"],"outbound": "🎯 游戏加速","protocol": ["tcp","udp"]},
       { "rule_set": ["geosite-alicloud","geosite-tencentcloud"],"outbound": "🎯 全球直连"},
       { "rule_set": "geosite-tw","outbound": "🇹🇼 台湾节点"},
