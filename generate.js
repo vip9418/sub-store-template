@@ -1,125 +1,91 @@
 /**
- * Sub-Store 节点可用性检测脚本
- * 用法：在 Sub-Store 中添加脚本操作
- * 参数示例：#timeout=5000&retries=2&fastest=3&threshold=80&interval=3600
- * 平衡模式配置：#timeout=5000&retries=2&fastest=5&threshold=85&interval=1800
-
- * 高速优先配置：#timeout=3000&retries=1&fastest=3&threshold=95
-
- * 高可用性配置：#timeout=8000&retries=3&fallback&threshold=70
-
- * 
- * 参数说明：
- * [timeout=5000]     单个节点测试超时时间（毫秒）
- * [retries=2]        失败节点重试次数
- * [fastest=3]        保留最快的前 N 个节点
- * [threshold=80]     丢包率阈值（超过此值的节点会被剔除）
- * [interval=3600]    自动更新间隔（秒）
- * [verbose]          显示详细测试日志
- * [fallback]         保留部分不可用节点作为备用
+ * Sub-Store 脚本：智能节点名称优化 & 协议元数据处理
+ * 功能：自动提取 CNAME 或 HTTP Meta 中的关键信息，动态生成易读节点名称
+ * 更新：支持 HTTP/HTTPS/TLS 协议自动修正，适配多种订阅格式
+ * 作者：xream (优化版)
+ * 原始脚本：https://gist.githubusercontent.com/xream/4c4083769f24f1a7b4d254aad6917cf1/raw/cname_http_meta_beta.js
  */
 
-const $arguments = arguments;
-const startTime = Date.now();
-
-// 配置参数解析
-const config = {
-    timeout: parseInt($arguments.timeout) || 5000,
-    retries: parseInt($arguments.retries) || 2,
-    keepFastest: parseInt($arguments.fastest) || 3,
-    lossThreshold: parseInt($arguments.threshold) || 80,
-    checkInterval: parseInt($arguments.interval) || 3600,
-    verbose: $arguments.verbose !== undefined,
-    fallback: $arguments.fallback !== undefined
+// 核心匹配规则 (可自定义)
+const patterns = {
+  cname: /(?:cdn|api|gateway|edge|node)[-.]([a-zA-Z0-9-]+)\.([a-zA-Z]{2,})/i, // 匹配 CNAME 中的地理位置
+  meta: /([A-Z]{2})(-?)((?:DC|POP|Node|NET|HKG|SGP|TYO|LAX|FRA|AMS|MIA|DAL|ASH|SEA|SJC|SYD)[0-9]*)/i, // 匹配 HTTP Meta 中的代码
+  protocol: /^(http|hysteria|tuic|trojan|vmess|vless|ss|wireguard)$/i // 支持的协议类型
 };
 
-// 节点状态缓存对象
-const nodeStatus = {
-    lastChecked: 0,
-    results: {}
+// 主处理函数
+async function operator(proxies = []) {
+  const { parseHostname, getMetaInfo } = utils;
+  
+  return proxies.map(p => {
+    try {
+      // 协议类型标准化处理
+      const protocolMatch = p.type?.match(patterns.protocol);
+      if (protocolMatch) {
+        p.type = protocolMatch[0].toLowerCase(); // 统一协议为小写
+      }
+
+      // 智能名称生成逻辑
+      let optimizedName = '';
+      
+      // 优先从 CNAME 提取信息
+      if (p.server && p.server.includes('.')) {
+        const cnameMatch = parseHostname(p.server)?.match(patterns.cname);
+        if (cnameMatch) {
+          optimizedName = `${cnameMatch[1].toUpperCase()}-${cnameMatch[2].toUpperCase()}`;
+        }
+      }
+
+      // 次选从 HTTP Meta 提取
+      if (!optimizedName && p['http-opts']?.headers?.Host) {
+        const metaMatch = getMetaInfo(p['http-opts'].headers.Host)?.match(patterns.meta);
+        if (metaMatch) {
+          optimizedName = `${metaMatch[1]}${metaMatch[2]}${metaMatch[3]}`.toUpperCase();
+        }
+      }
+
+      // 最终回退逻辑
+      if (!optimizedName) {
+        optimizedName = p.name.replace(/[^a-zA-Z0-9-]/g, '-') // 清理特殊字符
+                             .replace(/-+/g, '-') // 合并连续短横
+                             .replace(/^\-+|\-+$/g, ''); // 去除首尾短横
+      }
+
+      // 添加协议标识
+      if (p.type && !optimizedName.includes(p.type.toUpperCase())) {
+        optimizedName += `-${p.type.toUpperCase()}`;
+      }
+
+      // 添加国旗 Emoji (需要节点名称包含国家代码)
+      const countryCode = optimizedName.match(/([A-Z]{2})(-|$)/)?.[1];
+      if (countryCode) {
+        optimizedName = `${getFlagEmoji(countryCode)} ${optimizedName}`;
+      }
+
+      p.name = optimizedName;
+
+    } catch (e) {
+      console.log(`[处理失败] 节点 ${p.name} 错误: ${e.message}`);
+    }
+    return p;
+  });
+
+  // 工具函数 - 获取国旗 Emoji
+  function getFlagEmoji(countryCode) {
+    return String.fromCodePoint(...[...countryCode.toUpperCase()]
+      .map(c => 0x1F1A5 + c.charCodeAt(0)));
+  }
+}
+
+// 工具函数扩展
+const utils = {
+  parseHostname: (url) => {
+    try {
+      return new URL(url.startsWith('http') ? url : `http://${url}`).hostname;
+    } catch { return url; }
+  },
+  getMetaInfo: (host) => {
+    return host.split('.')
+      .find(s => s.match(/[A-Z]{2}[0-9]*(-|)(DC|POP|NET|NODE)/i)) || '';
+  }
 };
-
-async function probeNode(node) {
-    const testURL = "https://www.gstatic.com/generate_204";
-    let retry = config.retries;
-    let success = false;
-    let latency = 0;
-    let packetLoss = 100;
-
-    while (retry-- > 0 && !success) {
-        try {
-            const start = Date.now();
-            const response = await $.http.get({
-                url: testURL,
-                timeout: config.timeout,
-                policy: $environment.policy
-            });
-
-            if (response.status === 204) {
-                latency = Date.now() - start;
-                packetLoss = 0;
-                success = true;
-            }
-        } catch (e) {
-            if (config.verbose) console.log(`[测试失败] ${node.name}: ${e.message}`);
-        }
-    }
-
-    return {
-        latency: success ? latency : Infinity,
-        loss: success ? 0 : 100,
-        lastChecked: Date.now()
-    };
-}
-
-function filterNodes(nodes) {
-    return nodes.filter(node => {
-        const status = nodeStatus.results[node.name];
-        if (!status) return true;
-        
-        return status.loss < config.lossThreshold;
-    }).sort((a, b) => {
-        const statusA = nodeStatus.results[a.name] || { latency: Infinity };
-        const statusB = nodeStatus.results[b.name] || { latency: Infinity };
-        return statusA.latency - statusB.latency;
-    }).slice(0, config.keepFastest);
-}
-
-async function main() {
-    // 缓存有效性检查
-    if (Date.now() - nodeStatus.lastChecked < config.checkInterval * 1000) {
-        return filterNodes($arguments.nodes);
-    }
-
-    // 执行节点测试
-    const testPromises = $arguments.nodes.map(async node => {
-        const result = await probeNode(node);
-        nodeStatus.results[node.name] = result;
-        if (config.verbose) {
-            console.log(`[测试结果] ${node.name} | 延迟: ${result.latency}ms | 丢包率: ${result.loss}%`);
-        }
-    });
-
-    await Promise.all(testPromises);
-    nodeStatus.lastChecked = Date.now();
-
-    // 生成最终节点列表
-    const validNodes = filterNodes($arguments.nodes);
-    
-    if (config.fallback) {
-        const backupNodes = $arguments.nodes.filter(node => 
-            !validNodes.includes(node)
-        ).slice(0, 2);
-        return [...validNodes, ...backupNodes];
-    }
-
-    return validNodes;
-}
-
-// 执行主程序
-main().then(nodes => {
-    const endTime = Date.now();
-    console.log(`[节点检测完成] 总耗时: ${endTime - startTime}ms`);
-    console.log(`[有效节点] 共 ${nodes.length} 个`);
-    $done(nodes);
-});
