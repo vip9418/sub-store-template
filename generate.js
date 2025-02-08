@@ -2,6 +2,12 @@
  * Sub-Store 节点可用性检测脚本
  * 用法：在 Sub-Store 中添加脚本操作
  * 参数示例：#timeout=5000&retries=2&fastest=3&threshold=80&interval=3600
+ * 平衡模式配置：#timeout=5000&retries=2&fastest=5&threshold=85&interval=1800
+
+ * 高速优先配置：#timeout=3000&retries=1&fastest=3&threshold=95
+
+ * 高可用性配置：#timeout=8000&retries=3&fallback&threshold=70
+
  * 
  * 参数说明：
  * [timeout=5000]     单个节点测试超时时间（毫秒）
