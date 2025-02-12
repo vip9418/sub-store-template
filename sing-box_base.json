@@ -1,0 +1,296 @@
+{
+  "log": {
+    "level": "info",
+    "output": "console"
+  },
+  "dns": {
+    "enable": true,
+    "listen": [
+      ":53"
+    ],
+    "fallback_filter": {
+      "geoip": true,
+      "ip_cidr": [
+        "224.0.0.0/3",
+        "255.255.255.255/32"
+      ]
+    },
+    "rules": [
+      {
+        "geosite": "category-ads-all",
+        "reject": true
+      }
+    ],
+    "strategy": "prefer_ipv4",
+    "upstream": [
+      "https://223.5.5.5/dns-query",
+      "https://119.29.29.29/dns-query",
+      "https://doh.pub/dns-query",
+      "https://cloudflare-dns.com/dns-query"
+    ]
+  },
+  "inbounds": [
+    {
+      "type": "mixed",
+      "tag": "mixed-inbound",
+      "listen": "0.0.0.0",
+      "listen_port": 2080,
+      "sniff": true,
+      "sniff_override_destination": true
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "direct",
+      "tag": "direct"
+    },
+    {
+      "type": "reject",
+      "tag": "reject"
+    },
+    {
+      "type": "selector",
+      "tag": "proxy",
+      "outbounds": [
+        "auto",
+        "all",
+        "hk",
+        "tw",
+        "jp",
+        "sg",
+        "us",
+        "direct"
+      ]
+    },
+    {
+      "type": "urltest",
+      "tag": "auto",
+      "outbound": "all",
+      "url": "https://www.google.com",
+      "interval": "5m"
+    },
+    {
+      "type": "selector",
+      "tag": "all",
+      "outbounds": []
+    },
+    {
+      "type": "selector",
+      "tag": "hk",
+      "outbounds": []
+    },
+    {
+      "type": "selector",
+      "tag": "tw",
+      "outbounds": []
+    },
+    {
+      "type": "selector",
+      "tag": "jp",
+      "outbounds": []
+    },
+    {
+      "type": "selector",
+      "tag": "sg",
+      "outbounds": []
+    },
+    {
+      "type": "selector",
+      "tag": "us",
+      "outbounds": []
+    }
+  ],
+  "route": {
+    "rules": [
+      // --------------------------------------------------------------------
+      // 1. 基础直连规则：确保中国大陆及本地流量直连，优先级最高
+      // --------------------------------------------------------------------
+      {
+        "type": "geoip",
+        "country": "CN", // 中国大陆 IP
+        "outbound": "direct",
+        "priority": 1
+      },
+      {
+        "type": "geoip",
+        "country": "private", // 私有网络 IP (局域网)
+        "outbound": "direct",
+        "priority": 1
+      },
+      {
+        "type": "geosite",
+        "site": "cn", // 中国大陆常用网站 (geosite:cn 包含大量国内网站)
+        "outbound": "direct",
+        "priority": 2
+      },
+      {
+        "type": "geosite",
+        "site": "category-ads-cn", // 中国广告域名 (可选，更精细的国内广告过滤)
+        "outbound": "reject",
+        "priority": 3
+      },
+      // --------------------------------------------------------------------
+      // 2. 常见国内服务域名直连 (可选，如果 geosite:cn 覆盖不全，可补充)
+      //    这里列举一些常见的，你可以根据自己的需求添加更多
+      // --------------------------------------------------------------------
+      {
+        "type": "domain_suffix",
+        "domain": "baidu.com",
+        "outbound": "direct",
+        "priority": 3
+      },
+      {
+        "type": "domain_suffix",
+        "domain": "qq.com",
+        "outbound": "direct",
+        "priority": 3
+      },
+      {
+        "type": "domain_suffix",
+        "domain": "weibo.com",
+        "outbound": "direct",
+        "priority": 3
+      },
+      {
+        "type": "domain_suffix",
+        "domain": "taobao.com",
+        "outbound": "direct",
+        "priority": 3
+      },
+      {
+        "type": "domain_suffix",
+        "domain": "alipay.com",
+        "outbound": "direct",
+        "priority": 3
+      },
+      {
+        "type": "domain_suffix",
+        "domain": "jd.com",
+        "outbound": "direct",
+        "priority": 3
+      },
+      {
+        "type": "domain_suffix",
+        "domain": "bilibili.com",
+        "outbound": "direct",
+        "priority": 3
+      },
+      {
+        "type": "domain_suffix",
+        "domain": "163.com",
+        "outbound": "direct",
+        "priority": 3
+      },
+      {
+        "type": "domain_suffix",
+        "domain": "sina.com.cn",
+        "outbound": "direct",
+        "priority": 3
+      },
+      {
+        "type": "domain_suffix",
+        "domain": "gov.cn", // 中国政府网站 (可选，根据需要添加)
+        "outbound": "direct",
+        "priority": 3
+      },
+      {
+        "type": "domain_suffix",
+        "domain": "mil.cn", // 中国军事网站 (可选，根据需要添加)
+        "outbound": "direct",
+        "priority": 3
+      },
+      // --------------------------------------------------------------------
+      // 3. 常见广告和追踪域名拦截 (可选，根据需要启用或添加更多)
+      //    这里使用了 category-ads-all，包含较全面的广告域名
+      // --------------------------------------------------------------------
+      {
+        "type": "geosite",
+        "site": "category-ads-all", // 全球广告域名
+        "outbound": "reject",
+        "priority": 4
+      },
+      // --------------------------------------------------------------------
+      // 4. 国外常用服务域名走代理 (示例，你可以根据自己的需求添加更多)
+      //    这里只列举了一些常见的需要代理的国外服务，你可以根据自己的常用应用和服务进行补充
+      // --------------------------------------------------------------------
+      {
+        "type": "domain_suffix",
+        "domain": "google.com",
+        "outbound": "proxy",
+        "priority": 5
+      },
+      {
+        "type": "domain_suffix",
+        "domain": "youtube.com",
+        "outbound": "proxy",
+        "priority": 5
+      },
+      {
+        "type": "domain_suffix",
+        "domain": "facebook.com",
+        "outbound": "proxy",
+        "priority": 5
+      },
+      {
+        "type": "domain_suffix",
+        "domain": "twitter.com",
+        "outbound": "proxy",
+        "priority": 5
+      },
+      {
+        "type": "domain_suffix",
+        "domain": "instagram.com",
+        "outbound": "proxy",
+        "priority": 5
+      },
+      {
+        "type": "domain_suffix",
+        "domain": "telegram.org",
+        "outbound": "proxy",
+        "priority": 5
+      },
+      {
+        "type": "domain_suffix",
+        "domain": "whatsapp.com",
+        "outbound": "proxy",
+        "priority": 5
+      },
+      {
+        "type": "domain_suffix",
+        "domain": "github.com",
+        "outbound": "proxy",
+        "priority": 5
+      },
+      {
+        "type": "domain_suffix",
+        "domain": "openai.com", // 例如 ChatGPT 等服务
+        "outbound": "proxy",
+        "priority": 5
+      },
+      {
+        "type": "domain_suffix",
+        "domain": "netflix.com", // 流媒体服务 (可选，根据需求添加)
+        "outbound": "proxy",
+        "priority": 5
+      },
+      {
+        "type": "domain_suffix",
+        "domain": "wikipedia.org", // 维基百科 (可选，根据需求添加)
+        "outbound": "proxy",
+        "priority": 5
+      },
+      // --------------------------------------------------------------------
+      // 5.  兜底规则：所有未匹配以上规则的流量，默认走代理
+      //     确保国外未知流量也走代理
+      // --------------------------------------------------------------------
+      {
+        "type": "match",
+        "outbound": "proxy",
+        "priority": 6
+      }
+    ],
+    "auto_detect_interface": true,
+    "final": "proxy",
+    "default": "proxy"
+  }
+      }
