@@ -107,25 +107,25 @@
       // --------------------------------------------------------------------
       {
         "type": "geoip",
-        "country": "CN", // 中国大陆 IP
+        "country": "CN",
         "outbound": "direct",
         "priority": 1
       },
       {
         "type": "geoip",
-        "country": "private", // 私有网络 IP (局域网)
+        "country": "private",
         "outbound": "direct",
         "priority": 1
       },
       {
         "type": "geosite",
-        "site": "cn", // 中国大陆常用网站 (geosite:cn 包含大量国内网站)
+        "site": "cn",
         "outbound": "direct",
         "priority": 2
       },
       {
         "type": "geosite",
-        "site": "category-ads-cn", // 中国广告域名 (可选，更精细的国内广告过滤)
+        "site": "category-ads-cn",
         "outbound": "reject",
         "priority": 3
       },
@@ -205,7 +205,7 @@
       // --------------------------------------------------------------------
       {
         "type": "geosite",
-        "site": "category-ads-all", // 全球广告域名
+        "site": "category-ads-all",
         "outbound": "reject",
         "priority": 4
       },
@@ -263,19 +263,19 @@
       },
       {
         "type": "domain_suffix",
-        "domain": "openai.com", // 例如 ChatGPT 等服务
+        "domain": "openai.com",
         "outbound": "proxy",
         "priority": 5
       },
       {
         "type": "domain_suffix",
-        "domain": "netflix.com", // 流媒体服务 (可选，根据需求添加)
+        "domain": "netflix.com",
         "outbound": "proxy",
         "priority": 5
       },
       {
         "type": "domain_suffix",
-        "domain": "wikipedia.org", // 维基百科 (可选，根据需求添加)
+        "domain": "wikipedia.org",
         "outbound": "proxy",
         "priority": 5
       },
@@ -293,4 +293,4 @@
     "final": "proxy",
     "default": "proxy"
   }
-      }
+}
