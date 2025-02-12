@@ -8,6 +8,13 @@
     "listen": [
       ":53"
     ],
+    "strategy": "prefer_ipv4",
+    "upstream": [
+      "https://223.5.5.5/dns-query",
+      "https://119.29.29.29/dns-query",
+      "https://doh.pub/dns-query",
+      "https://cloudflare-dns.com/dns-query"
+    ],
     "fallback_filter": {
       "geoip": true,
       "ip_cidr": [
@@ -20,13 +27,6 @@
         "geosite": "category-ads-all",
         "reject": true
       }
-    ],
-    "strategy": "prefer_ipv4",
-    "upstream": [
-      "https://223.5.5.5/dns-query",
-      "https://119.29.29.29/dns-query",
-      "https://doh.pub/dns-query",
-      "https://cloudflare-dns.com/dns-query"
     ]
   },
   "inbounds": [
@@ -101,6 +101,9 @@
     }
   ],
   "route": {
+    "auto_detect_interface": true,
+    "default": "proxy",
+    "final": "proxy",
     "rules": [
       // --------------------------------------------------------------------
       // 1. 基础直连规则：确保中国大陆及本地流量直连，优先级最高
@@ -263,19 +266,19 @@
       },
       {
         "type": "domain_suffix",
-        "domain": "openai.com",
+        "domain": "openai.com", // 例如 ChatGPT 等服务
         "outbound": "proxy",
         "priority": 5
       },
       {
         "type": "domain_suffix",
-        "domain": "netflix.com",
+        "domain": "netflix.com", // 流媒体服务 (可选，根据需求添加)
         "outbound": "proxy",
         "priority": 5
       },
       {
         "type": "domain_suffix",
-        "domain": "wikipedia.org",
+        "domain": "wikipedia.org", // 维基百科 (可选，根据需求添加)
         "outbound": "proxy",
         "priority": 5
       },
@@ -288,9 +291,6 @@
         "outbound": "proxy",
         "priority": 6
       }
-    ],
-    "auto_detect_interface": true,
-    "final": "proxy",
-    "default": "proxy"
+    ]
   }
 }
