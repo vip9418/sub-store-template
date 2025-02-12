@@ -115,5 +115,39 @@
       }
     ],
     "final": "proxy"
-  }
+  },
+  "outbounds": [
+    {
+      "tag": "direct",
+      "type": "direct"
+    },
+    {
+      "tag": "proxy",
+      "type": "socks",
+      "server": "127.0.0.1",
+      "server_port": 1080
+    },
+    {
+      "tag": "dns-out",
+      "type": "dns"
+    },
+    {
+      "tag": "streaming",
+      "type": "socks",
+      "server": "127.0.0.1",
+      "server_port": 1081
+    },
+    {
+      "tag": "work",
+      "type": "socks",
+      "server": "127.0.0.1",
+      "server_port": 1082
+    },
+    {
+      "tag": "social",
+      "type": "socks",
+      "server": "127.0.0.1",
+      "server_port": 1083
+    }
+  ]
 }
