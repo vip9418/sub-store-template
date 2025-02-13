@@ -1,8 +1,4 @@
 const { type, name } = $arguments;
-const compatibleOutbound = {
-  tag: 'compatible', 
-  type: 'direct',
-};
 
 let config = JSON.parse($files[0]);
 let proxies = await produceArtifact({
@@ -11,6 +7,7 @@ let proxies = await produceArtifact({
   platform: 'sing-box',
   produceType: 'internal',
 });
+
 
 proxies.forEach(proxy => {
   if (!config.outbounds.find(outbound => outbound.tag === proxy.tag)) {
@@ -31,16 +28,16 @@ config.outbounds.map(i => {
   if (['jp', 'jp-auto'].includes(i.tag)) {
     i.outbounds.push(...getTags(proxies, /日本|jp|japan|🇯🇵/i));
   }
-  if (['kr', 'kr-auto'].includes(i.tag)) {
+   if (['kr', 'kr-auto'].includes(i.tag)) {
     i.outbounds.push(...getTags(proxies, /韩|kr|korea|🇰🇷/i));
   }
-  if (['uk', 'uk-auto'].includes(i.tag)) {
+   if (['uk', 'uk-auto'].includes(i.tag)) {
     i.outbounds.push(...getTags(proxies, /英|uk|unitedkingdom|🇬🇧/i));
   }
-  if (['de', 'de-auto'].includes(i.tag)) {
+   if (['de', 'de-auto'].includes(i.tag)) {
     i.outbounds.push(...getTags(proxies, /德|de|germany|🇩🇪/i));
   }
-  if (['fr', 'fr-auto'].includes(i.tag)) {
+   if (['fr', 'fr-auto'].includes(i.tag)) {
     i.outbounds.push(...getTags(proxies, /法|fr|france|🇫🇷/i));
   }
   if (['nl', 'nl-auto'].includes(i.tag)) {
@@ -53,14 +50,14 @@ config.outbounds.map(i => {
     i.outbounds.push(...getTags(proxies, /美|us|unitedstates|united states|🇺🇸/i));
   }
 });
-let compatibleAdded = false;
+
+
+const compatibleOutbound = config.outbounds.find(o => o.tag === "compatible");
+
+
 config.outbounds.forEach(outbound => {
-  if (outbound.tag === "proxy" && Array.isArray(outbound.outbounds) && outbound.outbounds.length === 0) {
-    if (!config.outbounds.some(o => o.tag === "compatible")) {
-      config.outbounds.push(compatibleOutbound);
-    }
+  if (outbound.tag === "proxy" && Array.isArray(outbound.outbounds) && outbound.outbounds.length === 0 && compatibleOutbound) {
     outbound.outbounds.push(compatibleOutbound.tag);
-    compatibleAdded = true; 
   }
 });
 
