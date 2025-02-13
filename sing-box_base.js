@@ -10,7 +10,8 @@ let proxies = await produceArtifact({
 
 proxies.forEach((proxy, index) => {
   if (!proxy.tag) {
-    proxy.tag = `proxy-${index}-${Date.now()}`;
+
+    proxy.tag = `proxy_${index}_${Date.now()}`.replace(/[^a-zA-Z0-9_]/g, "");
   }
 });
 
