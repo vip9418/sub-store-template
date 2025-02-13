@@ -64,7 +64,7 @@
       },
       {
         "clash_mode": "Global",
-        "outbound": "GLOBAL"
+        "outbound": "proxy"
       },
       {
         "rule_set": "bilibili",
@@ -100,7 +100,7 @@
       },
       {
         "rule_set": ["geoip-cn", "geosite-cn"],
-        "outbound": "cn"
+        "outbound": "direct"
       },
       {
         "rule_set": "geolocation-!cn",
@@ -214,7 +214,7 @@
         "download_detour": "direct"
       }
     ],
-    "final": "final",
+    "final": "proxy",
     "auto_detect_interface": true
   },
   "outbounds": [
@@ -222,27 +222,16 @@
       "tag": "proxy",
       "type": "selector",
       "outbounds": [
-        "hk",
         "hk-auto",
-        "tw",
         "tw-auto",
-        "jp",
         "jp-auto",
-        "sg",
         "sg-auto",
-        "us",
         "us-auto",
-        "kr",
         "kr-auto",
-        "uk",
         "uk-auto",
-        "de",
         "de-auto",
-        "fr",
         "fr-auto",
-        "nl",
         "nl-auto",
-        "all",
         "all-auto"
       ],
       "default": "all-auto"
