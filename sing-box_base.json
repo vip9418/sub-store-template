@@ -243,7 +243,8 @@
         "nl",
         "nl-auto",
         "all",
-        "all-auto"
+        "all-auto",
+        "compatible"
       ],
       "default": "all-auto"
     },
@@ -262,7 +263,8 @@
         "uk-auto",
         "de-auto",
         "fr-auto",
-        "nl-auto"
+        "nl-auto",
+        "compatible"
       ],
       "default": "proxy"
     },
@@ -281,7 +283,8 @@
         "uk-auto",
         "de-auto",
         "fr-auto",
-        "nl-auto"
+        "nl-auto",
+        "compatible"
       ],
       "default": "direct"
     },
@@ -300,14 +303,15 @@
         "uk-auto",
         "de-auto",
         "fr-auto",
-        "nl-auto"
+        "nl-auto",
+        "compatible"
       ],
       "default": "proxy"
     },
     {
       "tag": "bilibili",
       "type": "selector",
-      "outbounds": ["direct", "proxy"],
+      "outbounds": ["direct", "proxy", "compatible"],
       "default": "direct"
     },
     {
@@ -325,7 +329,8 @@
         "uk-auto",
         "de-auto",
         "fr-auto",
-        "nl-auto"
+        "nl-auto",
+        "compatible"
       ],
       "default": "proxy"
     },
@@ -344,7 +349,8 @@
         "uk-auto",
         "de-auto",
         "fr-auto",
-        "nl-auto"
+        "nl-auto",
+        "compatible"
       ],
       "default": "proxy"
     },
@@ -363,7 +369,8 @@
         "uk-auto",
         "de-auto",
         "fr-auto",
-        "nl-auto"
+        "nl-auto",
+        "compatible"
       ],
       "default": "proxy"
     },
@@ -382,20 +389,21 @@
         "uk-auto",
         "de-auto",
         "fr-auto",
-        "nl-auto"
+        "nl-auto",
+        "compatible"
       ],
       "default": "proxy"
     },
     {
       "tag": "cn",
       "type": "selector",
-      "outbounds": ["direct", "proxy"],
+      "outbounds": ["direct", "proxy", "compatible"],
       "default": "direct"
     },
     {
       "tag": "final",
       "type": "selector",
-      "outbounds": ["proxy", "direct"],
+      "outbounds": ["proxy", "direct", "compatible"],
       "default": "proxy"
     },
     {
@@ -488,7 +496,7 @@
       "interval": "1m",
       "tolerance": 50
     },
-     {
+    {
       "tag": "kr-auto",
       "type": "urltest",
       "outbounds": ["kr"],
@@ -544,7 +552,7 @@
     {
       "tag": "GLOBAL",
       "type": "selector",
-      "outbounds": ["proxy", "direct"],
+      "outbounds": ["proxy", "direct", "compatible"],
       "default": "proxy"
     },
     {
@@ -554,6 +562,10 @@
     {
       "tag": "dns-out",
       "type": "dns"
+    },
+    {
+      "tag": "compatible",
+      "type": "direct"
     }
   ],
   "inbounds": [
