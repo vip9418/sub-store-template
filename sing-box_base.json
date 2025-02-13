@@ -56,55 +56,79 @@
       },
       {
         "ip_is_private": true,
+        "action": "route",
         "outbound": "direct"
       },
       {
-        "clash_mode": "Direct",
-        "outbound": "direct"
-      },
-      {
-        "clash_mode": "Global",
-        "outbound": "GLOBAL"
-      },
-      {
-        "rule_set": "bilibili",
-        "outbound": "bilibili"
+        "rule_set": "geosite-cn",
+        "action": "route",
+        "outbound": "cn"
       },
       {
         "rule_set": ["geoip-netflix", "geosite-netflix"],
+        "action": "route",
         "outbound": "netflix"
       },
       {
         "rule_set": "bahamut",
+        "action": "route",
         "outbound": "bahamut"
       },
       {
         "rule_set": "youtube",
+        "action": "route",
         "outbound": "youtube"
       },
       {
         "rule_set": "openai",
+        "action": "route",
         "outbound": "openai"
       },
       {
         "rule_set": ["geoip-google", "geosite-google"],
+        "action": "route",
         "outbound": "google"
       },
       {
         "rule_set": ["geoip-apple", "geosite-apple"],
+        "action": "route",
         "outbound": "apple"
       },
       {
         "rule_set": ["geoip-telegram", "geosite-telegram"],
+        "action": "route",
         "outbound": "telegram"
       },
       {
-        "rule_set": ["geoip-cn", "geosite-cn"],
-        "outbound": "cn"
-      },
-      {
         "rule_set": "geolocation-!cn",
+        "action": "route",
         "outbound": "proxy"
+      },
+       {
+        "protocol": [
+          "http",
+          "https",
+          "tls",
+          "quic",
+          "grpc"
+        ],
+        "action": "route",
+        "outbound": "final"
+      },
+       {
+        "protocol": [
+          "dns"
+        ],
+        "action": "route",
+        "outbound": "dns-out"
+      },
+       {
+        "domain": [
+          "google.com",
+          "gstatic.com"
+        ],
+        "action": "route",
+        "outbound": "google"
       }
     ],
     "rule_set": [
@@ -219,6 +243,10 @@
   },
   "outbounds": [
     {
+      "tag": "compatible",
+      "type": "direct"
+    },
+    {
       "tag": "proxy",
       "type": "selector",
       "outbounds": [
@@ -242,8 +270,6 @@
         "fr-auto",
         "nl",
         "nl-auto",
-        "all",
-        "all-auto",
         "compatible"
       ],
       "default": "all-auto"
@@ -606,7 +632,7 @@
   },
   "log": {
     "disabled": false,
-    "level": "info",
+    "level": "warn",
     "timestamp": true
   }
 }
