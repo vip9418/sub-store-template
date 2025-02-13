@@ -51,60 +51,61 @@
   "route": {
     "rules": [
       {
+        "protocol": ["udp", "tcp"],
         "port": 53,
-        "outbound": "dns-out"
+        "action": "dns"
       },
       {
         "ip_is_private": true,
-        "outbound": "direct"
+        "action": "direct"
       },
       {
         "clash_mode": "Direct",
-        "outbound": "direct"
+        "action": "direct"
       },
       {
         "clash_mode": "Global",
-        "outbound": "proxy"
+        "action": "proxy"
       },
       {
         "rule_set": "bilibili",
-        "outbound": "bilibili"
+        "action": "direct"
       },
       {
         "rule_set": ["geoip-netflix", "geosite-netflix"],
-        "outbound": "netflix"
+        "action": "proxy"
       },
       {
         "rule_set": "bahamut",
-        "outbound": "bahamut"
+        "action": "proxy"
       },
       {
         "rule_set": "youtube",
-        "outbound": "youtube"
+        "action": "proxy"
       },
       {
         "rule_set": "openai",
-        "outbound": "openai"
+        "action": "proxy"
       },
       {
         "rule_set": ["geoip-google", "geosite-google"],
-        "outbound": "google"
+        "action": "proxy"
       },
       {
         "rule_set": ["geoip-apple", "geosite-apple"],
-        "outbound": "apple"
+        "action": "direct"
       },
       {
         "rule_set": ["geoip-telegram", "geosite-telegram"],
-        "outbound": "telegram"
+        "action": "proxy"
       },
       {
         "rule_set": ["geoip-cn", "geosite-cn"],
-        "outbound": "direct"
+        "action": "direct"
       },
       {
         "rule_set": "geolocation-!cn",
-        "outbound": "proxy"
+        "action": "proxy"
       }
     ],
     "rule_set": [
@@ -234,7 +235,16 @@
         "nl-auto",
         "all-auto"
       ],
-      "default": "all-auto"
+      "default": "all-auto",
+      "interrupt_exist_connections": false
+    },
+    {
+      "tag": "direct",
+      "type": "direct"
+    },
+    {
+      "tag": "COMPATIBLE",
+      "type": "direct"
     },
     {
       "tag": "google",
