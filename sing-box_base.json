@@ -52,6 +52,7 @@
     "rules": [
       {
         "port": 53,
+        "action": "route",
         "outbound": "dns-out"
       },
       {
@@ -104,32 +105,21 @@
         "action": "route",
         "outbound": "proxy"
       },
-       {
-        "protocol": [
-          "http",
-          "https",
-          "tls",
-          "quic",
-          "grpc"
-        ],
+      {
+        "protocol": ["http", "https", "tls", "quic", "grpc"],
         "action": "route",
         "outbound": "final"
       },
-       {
-        "protocol": [
-          "dns"
-        ],
-        "action": "route",
-        "outbound": "dns-out"
-      },
-       {
-        "domain": [
-          "google.com",
-          "gstatic.com"
-        ],
+      {
+        "domain": ["google.com", "gstatic.com"],
         "action": "route",
         "outbound": "google"
+      },
+      {
+        "outbound": "final" ,
+        "action": "route"
       }
+
     ],
     "rule_set": [
       {
