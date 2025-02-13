@@ -1,74 +1,68 @@
-const { type, name } = $arguments;
+const { type, name } = $arguments
+const compatible_outbound = {
+  tag: 'COMPATIBLE',
+  type: 'direct',
+}
 
-let config = JSON.parse($files[0]);
+let compatible
+let config = JSON.parse($files[0])
 let proxies = await produceArtifact({
   name,
   type: /^1$|col/i.test(type) ? 'collection' : 'subscription',
   platform: 'sing-box',
   produceType: 'internal',
-});
+})
 
-proxies.forEach((proxy, index) => {
-  if (!proxy.tag) {
-    proxy.tag = `proxy_${index}_${Date.now()}`.replace(/[^a-zA-Z0-9_]/g, "");
+config.outbounds.push(...proxies)
+
+config.outbounds.map(i => {
+  if (['all', 'all-auto'].includes(i.tag)) {
+    i.outbounds.push(...getTags(proxies))
+  }
+  if (['hk', 'hk-auto'].includes(i.tag)) {
+    i.outbounds.push(...getTags(proxies, /港|hk|hongkong|kong kong|🇭🇰/i))
+  }
+  if (['tw', 'tw-auto'].includes(i.tag)) {
+    i.outbounds.push(...getTags(proxies, /台|tw|taiwan|🇹🇼/i))
+  }
+  if (['jp', 'jp-auto'].includes(i.tag)) {
+    i.outbounds.push(...getTags(proxies, /日本|jp|japan|🇯🇵/i))
+  }
+  if (['sg', 'sg-auto'].includes(i.tag)) {
+    i.outbounds.push(...getTags(proxies, /^(?!.*(?:us)).*(新|sg|singapore|🇸🇬)/i))
+  }
+  if (['us', 'us-auto'].includes(i.tag)) {
+    i.outbounds.push(...getTags(proxies, /美|us|unitedstates|united states|🇺🇸/i))
+  }
+  if (['kr', 'kr-auto'].includes(i.tag)) {
+    i.outbounds.push(...getTags(proxies, /韩|kr|korea|south korea|🇰🇷/i))
+  }
+  if (['uk', 'uk-auto'].includes(i.tag)) {
+    i.outbounds.push(...getTags(proxies, /英|uk|unitedkingdom|united kingdom|🇬🇧/i))
+  }
+  if (['de', 'de-auto'].includes(i.tag)) {
+    i.outbounds.push(...getTags(proxies, /德|de|germany|🇩🇪/i))
+  }
+  if (['fr', 'fr-auto'].includes(i.tag)) {
+    i.outbounds.push(...getTags(proxies, /法|fr|france|🇫🇷/i))
+  }
+  if (['nl', 'nl-auto'].includes(i.tag)) {
+    i.outbounds.push(...getTags(proxies, /荷|nl|netherlands|holland|🇳🇱/i))
+  }
+})
+
+config.outbounds.forEach(outbound => {
+  if (Array.isArray(outbound.outbounds) && outbound.outbounds.length === 0) {
+    if (!compatible) {
+      config.outbounds.push(compatible_outbound)
+      compatible = true
+    }
+    outbound.outbounds.push(compatible_outbound.tag);
   }
 });
 
-proxies.forEach(proxy => {
-  if (!config.outbounds.find(outbound => outbound.tag === proxy.tag)) {
-    config.outbounds.push(proxy);
-  }
-});
-
-const autoGroups = [
-  { tag: 'auto-all', regex: null },
-  { tag: 'auto-hk', regex: /港|hk|hongkong|kong kong|🇭🇰/i },
-  { tag: 'auto-tw', regex: /台|tw|taiwan|🇹🇼/i },
-  { tag: 'auto-jp', regex: /日本|jp|japan|🇯🇵/i },
-  { tag: 'auto-kr', regex: /韩|kr|korea|🇰🇷/i },
-  { tag: 'auto-uk', regex: /英|uk|unitedkingdom|🇬🇧/i },
-  { tag: 'auto-de', regex: /德|de|germany|🇩🇪/i },
-  { tag: 'auto-fr', regex: /法|fr|france|🇫🇷/i },
-  { tag: 'auto-nl', regex: /荷|nl|netherlands|🇳🇱/i },
-  { tag: 'auto-sg', regex: /^(?!.*(?:us)).*(新|sg|singapore|🇸🇬)/i },
-  { tag: 'auto-us', regex: /美|us|unitedstates|united states|🇺🇸/i }
-];
-
-autoGroups.forEach(group => {
-  const existing = config.outbounds.find(o => o.tag === group.tag);
-  if (!existing) {
-    config.outbounds.push({
-      tag: group.tag,
-      type: "urltest",
-      outbounds: getTags(proxies, group.regex),
-      url: "http://www.gstatic.com/generate_204",
-      interval: "5m",
-      tolerance: 150
-    });
-  } else {
-    existing.type = "urltest";
-    existing.url = "http://www.gstatic.com/generate_204";
-    existing.interval = "5m";
-    existing.tolerance = 150;
-    existing.outbounds = getTags(proxies, group.regex);
-    delete existing.filter;
-    delete existing.interval;
-    delete existing.tolerance;
-  }
-});
-
-if (!config.outbounds.find(o => o.tag === "proxy")) {
-  config.outbounds.push({
-    "tag": "proxy",
-    "type": "urltest",
-    "outbounds": ["auto-all"],
-    "url": "http://www.gstatic.com/generate_204",
-    "interval": "5m"
-  });
-}
-
-$content = JSON.stringify(config, null, 2);
+$content = JSON.stringify(config, null, 2)
 
 function getTags(proxies, regex) {
-  return (regex ? proxies.filter(p => regex.test(p.tag)) : proxies).map(p => p.tag);
+  return (regex ? proxies.filter(p => regex.test(p.tag)) : proxies).map(p => p.tag)
 }
