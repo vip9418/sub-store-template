@@ -15,6 +15,10 @@ let proxies = await produceArtifact({
 
 config.outbounds.push(...proxies)
 
+if (!config.outbounds.some(o => o.tag === 'COMPATIBLE')) {
+  config.outbounds.push(compatible_outbound)
+}
+
 config.outbounds.map(i => {
   if (['all', 'all-auto'].includes(i.tag)) {
     i.outbounds.push(...getTags(proxies))
@@ -34,17 +38,34 @@ config.outbounds.map(i => {
   if (['us', 'us-auto'].includes(i.tag)) {
     i.outbounds.push(...getTags(proxies, /美|us|unitedstates|united states|🇺🇸/i))
   }
+  if (['kr', 'kr-auto'].includes(i.tag)) {
+    i.outbounds.push(...getTags(proxies, /韩|kr|korea|south korea|🇰🇷/i))
+  }
+  if (['uk', 'uk-auto'].includes(i.tag)) {
+    i.outbounds.push(...getTags(proxies, /英|uk|unitedkingdom|united kingdom|🇬🇧/i))
+  }
+  if (['de', 'de-auto'].includes(i.tag)) {
+    i.outbounds.push(...getTags(proxies, /德|de|germany|🇩🇪/i))
+  }
+  if (['fr', 'fr-auto'].includes(i.tag)) {
+    i.outbounds.push(...getTags(proxies, /法|fr|france|🇫🇷/i))
+  }
+  if (['nl', 'nl-auto'].includes(i.tag)) {
+    i.outbounds.push(...getTags(proxies, /荷|nl|netherlands|holland|🇳🇱/i))
+  }
 })
 
 config.outbounds.forEach(outbound => {
-  if (Array.isArray(outbound.outbounds) && outbound.outbounds.length === 0) {
-    if (!compatible) {
-      config.outbounds.push(compatible_outbound)
-      compatible = true
-    }
-    outbound.outbounds.push(compatible_outbound.tag);
+  if (outbound.type === 'selector' && outbound.outbounds?.length === 0) {
+    outbound.outbounds.push('COMPATIBLE')
   }
-});
+})
+
+config.outbounds.forEach(o => {
+  if (!o.tag) {
+    o.tag = `auto_tag_${Math.random().toString(36).substr(2, 5)}`
+  }
+})
 
 $content = JSON.stringify(config, null, 2)
 
