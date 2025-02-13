@@ -1,6 +1,6 @@
 const { type, name } = $arguments;
 const compatibleOutbound = {
-  tag: 'COMPATIBLE',
+  tag: 'compatible', 
   type: 'direct',
 };
 
@@ -12,7 +12,11 @@ let proxies = await produceArtifact({
   produceType: 'internal',
 });
 
-config.outbounds.push(...proxies);
+proxies.forEach(proxy => {
+  if (!config.outbounds.find(outbound => outbound.tag === proxy.tag)) {
+    config.outbounds.push(proxy);
+  }
+});
 
 config.outbounds.map(i => {
   if (['all', 'all-auto'].includes(i.tag)) {
@@ -27,19 +31,19 @@ config.outbounds.map(i => {
   if (['jp', 'jp-auto'].includes(i.tag)) {
     i.outbounds.push(...getTags(proxies, /日本|jp|japan|🇯🇵/i));
   }
-    if (['kr', 'kr-auto'].includes(i.tag)) {
+  if (['kr', 'kr-auto'].includes(i.tag)) {
     i.outbounds.push(...getTags(proxies, /韩|kr|korea|🇰🇷/i));
   }
-    if (['uk', 'uk-auto'].includes(i.tag)) {
+  if (['uk', 'uk-auto'].includes(i.tag)) {
     i.outbounds.push(...getTags(proxies, /英|uk|unitedkingdom|🇬🇧/i));
   }
-    if (['de', 'de-auto'].includes(i.tag)) {
+  if (['de', 'de-auto'].includes(i.tag)) {
     i.outbounds.push(...getTags(proxies, /德|de|germany|🇩🇪/i));
   }
-    if (['fr', 'fr-auto'].includes(i.tag)) {
+  if (['fr', 'fr-auto'].includes(i.tag)) {
     i.outbounds.push(...getTags(proxies, /法|fr|france|🇫🇷/i));
   }
-   if (['nl', 'nl-auto'].includes(i.tag)) {
+  if (['nl', 'nl-auto'].includes(i.tag)) {
     i.outbounds.push(...getTags(proxies, /荷|nl|netherlands|🇳🇱/i));
   }
   if (['sg', 'sg-auto'].includes(i.tag)) {
@@ -49,16 +53,15 @@ config.outbounds.map(i => {
     i.outbounds.push(...getTags(proxies, /美|us|unitedstates|united states|🇺🇸/i));
   }
 });
-
 let compatibleAdded = false;
 config.outbounds.forEach(outbound => {
-    if (outbound.tag === "proxy" && Array.isArray(outbound.outbounds) && outbound.outbounds.length === 0) {
-        if (!config.outbounds.some(o => o.tag === "compatible")) {
-            config.outbounds.push(compatibleOutbound);
-        }
-        outbound.outbounds.push(compatibleOutbound.tag);
-        compatibleAdded = true; 
+  if (outbound.tag === "proxy" && Array.isArray(outbound.outbounds) && outbound.outbounds.length === 0) {
+    if (!config.outbounds.some(o => o.tag === "compatible")) {
+      config.outbounds.push(compatibleOutbound);
     }
+    outbound.outbounds.push(compatibleOutbound.tag);
+    compatibleAdded = true; 
+  }
 });
 
 $content = JSON.stringify(config, null, 2);
