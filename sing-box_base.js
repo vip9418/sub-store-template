@@ -10,7 +10,6 @@ let proxies = await produceArtifact({
 
 proxies.forEach((proxy, index) => {
   if (!proxy.tag) {
-
     proxy.tag = `proxy_${index}_${Date.now()}`.replace(/[^a-zA-Z0-9_]/g, "");
   }
 });
@@ -21,49 +20,52 @@ proxies.forEach(proxy => {
   }
 });
 
-config.outbounds.map(i => {
-  if (['all', 'all-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies));
-  }
-  if (['hk', 'hk-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /港|hk|hongkong|kong kong|🇭🇰/i));
-  }
-  if (['tw', 'tw-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /台|tw|taiwan|🇹🇼/i));
-  }
-  if (['jp', 'jp-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /日本|jp|japan|🇯🇵/i));
-  }
-   if (['kr', 'kr-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /韩|kr|korea|🇰🇷/i));
-  }
-   if (['uk', 'uk-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /英|uk|unitedkingdom|🇬🇧/i));
-  }
-   if (['de', 'de-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /德|de|germany|🇩🇪/i));
-  }
-   if (['fr', 'fr-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /法|fr|france|🇫🇷/i));
-  }
-  if (['nl', 'nl-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /荷|nl|netherlands|🇳🇱/i));
-  }
-  if (['sg', 'sg-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /^(?!.*(?:us)).*(新|sg|singapore|🇸🇬)/i));
-  }
-  if (['us', 'us-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /美|us|unitedstates|united states|🇺🇸/i));
+const autoGroups = [
+  { tag: 'auto-all', regex: null },
+  { tag: 'auto-hk', regex: /港|hk|hongkong|kong kong|🇭🇰/i },
+  { tag: 'auto-tw', regex: /台|tw|taiwan|🇹🇼/i },
+  { tag: 'auto-jp', regex: /日本|jp|japan|🇯🇵/i },
+  { tag: 'auto-kr', regex: /韩|kr|korea|🇰🇷/i },
+  { tag: 'auto-uk', regex: /英|uk|unitedkingdom|🇬🇧/i },
+  { tag: 'auto-de', regex: /德|de|germany|🇩🇪/i },
+  { tag: 'auto-fr', regex: /法|fr|france|🇫🇷/i },
+  { tag: 'auto-nl', regex: /荷|nl|netherlands|🇳🇱/i },
+  { tag: 'auto-sg', regex: /^(?!.*(?:us)).*(新|sg|singapore|🇸🇬)/i },
+  { tag: 'auto-us', regex: /美|us|unitedstates|united states|🇺🇸/i }
+];
+
+autoGroups.forEach(group => {
+  const existing = config.outbounds.find(o => o.tag === group.tag);
+  if (!existing) {
+    config.outbounds.push({
+      tag: group.tag,
+      type: "urltest",
+      outbounds: getTags(proxies, group.regex),
+      url: "http://www.gstatic.com/generate_204",
+      interval: "5m",
+      tolerance: 150
+    });
+  } else {
+    existing.type = "urltest";
+    existing.url = "http://www.gstatic.com/generate_204";
+    existing.interval = "5m";
+    existing.tolerance = 150;
+    existing.outbounds = getTags(proxies, group.regex);
+    delete existing.filter;
+    delete existing.interval;
+    delete existing.tolerance;
   }
 });
 
-const compatibleOutbound = config.outbounds.find(o => o.tag === "compatible");
-
-config.outbounds.forEach(outbound => {
-  if (outbound.tag === "proxy" && Array.isArray(outbound.outbounds) && outbound.outbounds.length === 0 && compatibleOutbound) {
-    outbound.outbounds.push(compatibleOutbound.tag);
-  }
-});
+if (!config.outbounds.find(o => o.tag === "proxy")) {
+  config.outbounds.push({
+    "tag": "proxy",
+    "type": "urltest",
+    "outbounds": ["auto-all"],
+    "url": "http://www.gstatic.com/generate_204",
+    "interval": "5m"
+  });
+}
 
 $content = JSON.stringify(config, null, 2);
 
