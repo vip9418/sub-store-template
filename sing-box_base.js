@@ -34,12 +34,6 @@ config.outbounds.map(i => {
   if (['us', 'us-auto'].includes(i.tag)) {
     i.outbounds.push(...getTags(proxies, /美|us|unitedstates|united states|🇺🇸/i))
   }
-  if (['kr', 'kr-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /韩|kr|korea|south korea|🇰🇷/i))
-  }
-  if (['de', 'de-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /德|de|germany|🇩🇪/i))
-  }
 })
 
 config.outbounds.forEach(outbound => {
