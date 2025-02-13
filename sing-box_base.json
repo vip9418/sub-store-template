@@ -71,7 +71,7 @@
       },
       {
         "rule_set": "category-ads-all",
-        "outbound": "block" 
+        "outbound": "block"
       },
       {
         "rule_set": "category-ads-porn",
@@ -105,7 +105,7 @@
         "rule_set": "openai-accelerated",
         "outbound": "openai"
       },
-       {
+      {
         "rule_set": "youtube-accelerated",
         "outbound": "youtube"
       },
@@ -125,7 +125,6 @@
         "rule_set": "games",
         "outbound": "proxy"
       }
-
     ],
     "rule_set": [
       {
@@ -140,7 +139,6 @@
         "type": "remote",
         "format": "binary",
         "url": "https://cdn.jsdelivr.net/gh/dustinkirkland/hollywood-list/ads-porn.txt",
-        "format_decoder": "plain",
         "download_detour": "direct"
       },
       {
@@ -148,72 +146,63 @@
         "type": "remote",
         "format": "binary",
         "url": "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community/data/cn.txt",
-        "download_detour": "direct",
-         "format_decoder": "plain"
+        "download_detour": "direct"
       },
       {
         "tag": "cn-accelerated-domains",
         "type": "remote",
         "format": "binary",
         "url": "https://cdn.jsdelivr.net/gh/felixonmars/CDN加速服务IP地址/中国CDN服务IP地址.txt",
-        "download_detour": "direct",
-         "format_decoder": "plain"
+        "download_detour": "direct"
       },
-       {
+      {
         "tag": "apple-cn",
         "type": "remote",
         "format": "binary",
         "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/domain-list-custom/applecn.txt",
-        "download_detour": "direct",
-         "format_decoder": "plain"
+        "download_detour": "direct"
       },
-       {
+      {
         "tag": "google-cn",
         "type": "remote",
         "format": "binary",
         "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/domain-list-custom/googlecn.txt",
-        "download_detour": "direct",
-         "format_decoder": "plain"
+        "download_detour": "direct"
       },
-       {
+      {
         "tag": "telegram-accelerated",
         "type": "remote",
         "format": "binary",
         "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/domain-list-custom/telegram.txt",
-        "download_detour": "direct",
-         "format_decoder": "plain"
+        "download_detour": "direct"
       },
-       {
+      {
         "tag": "netflix-accelerated",
         "type": "remote",
         "format": "binary",
         "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/domain-list-custom/netflix.txt",
-        "download_detour": "direct",
-         "format_decoder": "plain"
+        "download_detour": "direct"
       },
-       {
+      {
         "tag": "openai-accelerated",
         "type": "remote",
         "format": "binary",
         "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/domain-list-custom/openai.txt",
-        "download_detour": "direct",
-         "format_decoder": "plain"
+        "download_detour": "direct"
       },
-       {
+      {
         "tag": "youtube-accelerated",
         "type": "remote",
         "format": "binary",
         "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/domain-list-custom/youtube.txt",
-        "download_detour": "direct",
-         "format_decoder": "plain"
+        "download_detour": "direct"
       },
       {
         "tag": "bilibili",
         "type": "remote",
         "format": "binary",
         "url": "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community/data/bilibili.txt",
-        "download_detour": "direct",
-         "format_decoder": "plain"
+        "download_detour": "direct"
       },
       {
         "tag": "geolocation-!cn",
@@ -227,16 +216,14 @@
         "type": "remote",
         "format": "binary",
         "url": "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community/data/lancidr.txt",
-        "download_detour": "direct",
-         "format_decoder": "plain"
+        "download_detour": "direct"
       },
       {
         "tag": "games",
         "type": "remote",
         "format": "binary",
         "url": "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community/data/games.txt",
-        "download_detour": "proxy",
-         "format_decoder": "plain"
+        "download_detour": "proxy"
       },
        {
         "tag": "direct",
