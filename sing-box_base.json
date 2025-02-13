@@ -36,7 +36,10 @@
         "server": "fakeip"
       },
       {
-        "query_type": ["A", "AAAA"],
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
         "server": "fakeip",
         "rewrite_ttl": 1
       },
@@ -51,7 +54,10 @@
   "route": {
     "rules": [
       {
-        "protocol": ["udp", "tcp"],
+        "protocol": [
+          "udp",
+          "tcp"
+        ],
         "port": 53,
         "action": "dns"
       },
@@ -72,7 +78,10 @@
         "action": "direct"
       },
       {
-        "rule_set": ["geoip-netflix", "geosite-netflix"],
+        "rule_set": [
+          "geoip-netflix",
+          "geosite-netflix"
+        ],
         "action": "proxy"
       },
       {
@@ -88,19 +97,31 @@
         "action": "proxy"
       },
       {
-        "rule_set": ["geoip-google", "geosite-google"],
+        "rule_set": [
+          "geoip-google",
+          "geosite-google"
+        ],
         "action": "proxy"
       },
       {
-        "rule_set": ["geoip-apple", "geosite-apple"],
+        "rule_set": [
+          "geoip-apple",
+          "geosite-apple"
+        ],
         "action": "direct"
       },
       {
-        "rule_set": ["geoip-telegram", "geosite-telegram"],
+        "rule_set": [
+          "geoip-telegram",
+          "geosite-telegram"
+        ],
         "action": "proxy"
       },
       {
-        "rule_set": ["geoip-cn", "geosite-cn"],
+        "rule_set": [
+          "geoip-cn",
+          "geosite-cn"
+        ],
         "action": "direct"
       },
       {
@@ -243,6 +264,14 @@
       "type": "direct"
     },
     {
+      "tag": "dns",
+      "type": "dns"
+    },
+     {
+      "tag": "block",
+      "type": "block"
+    },
+    {
       "tag": "COMPATIBLE",
       "type": "direct"
     },
@@ -306,7 +335,10 @@
     {
       "tag": "bilibili",
       "type": "selector",
-      "outbounds": ["direct", "proxy"],
+      "outbounds": [
+        "direct",
+        "proxy"
+      ],
       "default": "direct"
     },
     {
@@ -388,13 +420,19 @@
     {
       "tag": "cn",
       "type": "selector",
-      "outbounds": ["direct", "proxy"],
+      "outbounds": [
+        "direct",
+        "proxy"
+      ],
       "default": "direct"
     },
     {
       "tag": "final",
       "type": "selector",
-      "outbounds": ["proxy", "direct"],
+      "outbounds": [
+        "proxy",
+        "direct"
+      ],
       "default": "proxy"
     },
     {
@@ -448,34 +486,11 @@
       "outbounds": []
     },
     {
-      "tag": "kr",
-      "type": "selector",
-      "outbounds": []
-    },
-    {
-      "tag": "uk",
-      "type": "selector",
-      "outbounds": []
-    },
-    {
-      "tag": "de",
-      "type": "selector",
-      "outbounds": []
-    },
-    {
-      "tag": "fr",
-      "type": "selector",
-      "outbounds": []
-    },
-    {
-      "tag": "nl",
-      "type": "selector",
-      "outbounds": []
-    },
-    {
       "tag": "hk-auto",
       "type": "urltest",
-      "outbounds": ["hk"],
+      "outbounds": [
+        "hk"
+      ],
       "url": "https://www.gstatic.com/generate_204",
       "interval": "1m",
       "tolerance": 50
@@ -483,7 +498,9 @@
     {
       "tag": "tw-auto",
       "type": "urltest",
-      "outbounds": ["tw"],
+      "outbounds": [
+        "tw"
+      ],
       "url": "https://www.gstatic.com/generate_204",
       "interval": "1m",
       "tolerance": 50
@@ -491,7 +508,9 @@
     {
       "tag": "jp-auto",
       "type": "urltest",
-      "outbounds": ["jp"],
+      "outbounds": [
+        "jp"
+      ],
       "url": "https://www.gstatic.com/generate_204",
       "interval": "1m",
       "tolerance": 50
@@ -499,7 +518,9 @@
     {
       "tag": "sg-auto",
       "type": "urltest",
-      "outbounds": ["sg"],
+      "outbounds": [
+        "sg"
+      ],
       "url": "https://www.gstatic.com/generate_204",
       "interval": "1m",
       "tolerance": 50
@@ -507,15 +528,19 @@
     {
       "tag": "us-auto",
       "type": "urltest",
-      "outbounds": ["us"],
+      "outbounds": [
+        "us"
+      ],
       "url": "https://www.gstatic.com/generate_204",
       "interval": "1m",
       "tolerance": 50
     },
-     {
+    {
       "tag": "kr-auto",
       "type": "urltest",
-      "outbounds": ["kr"],
+      "outbounds": [
+        "kr"
+      ],
       "url": "https://www.gstatic.com/generate_204",
       "interval": "1m",
       "tolerance": 50
@@ -523,7 +548,9 @@
     {
       "tag": "uk-auto",
       "type": "urltest",
-      "outbounds": ["uk"],
+      "outbounds": [
+        "uk"
+      ],
       "url": "https://www.gstatic.com/generate_204",
       "interval": "1m",
       "tolerance": 50
@@ -531,7 +558,9 @@
     {
       "tag": "de-auto",
       "type": "urltest",
-      "outbounds": ["de"],
+      "outbounds": [
+        "de"
+      ],
       "url": "https://www.gstatic.com/generate_204",
       "interval": "1m",
       "tolerance": 50
@@ -539,7 +568,9 @@
     {
       "tag": "fr-auto",
       "type": "urltest",
-      "outbounds": ["fr"],
+      "outbounds": [
+        "fr"
+      ],
       "url": "https://www.gstatic.com/generate_204",
       "interval": "1m",
       "tolerance": 50
@@ -547,7 +578,9 @@
     {
       "tag": "nl-auto",
       "type": "urltest",
-      "outbounds": ["nl"],
+      "outbounds": [
+        "nl"
+      ],
       "url": "https://www.gstatic.com/generate_204",
       "interval": "1m",
       "tolerance": 50
@@ -560,7 +593,9 @@
     {
       "tag": "all-auto",
       "type": "urltest",
-      "outbounds": ["all"],
+      "outbounds": [
+        "all"
+      ],
       "url": "https://www.gstatic.com/generate_204",
       "interval": "1m",
       "tolerance": 50
@@ -568,22 +603,20 @@
     {
       "tag": "GLOBAL",
       "type": "selector",
-      "outbounds": ["proxy", "direct"],
+      "outbounds": [
+        "proxy",
+        "direct"
+      ],
       "default": "proxy"
-    },
-    {
-      "tag": "direct",
-      "type": "direct"
-    },
-    {
-      "tag": "dns-out",
-      "type": "dns"
     }
   ],
   "inbounds": [
     {
       "type": "tun",
-      "address": ["172.19.0.0/30", "fdfe:dcba:9876::0/126"],
+      "address": [
+        "172.19.0.0/30",
+        "fdfe:dcba:9876::0/126"
+      ],
       "stack": "system",
       "auto_route": true,
       "sniff": true,
