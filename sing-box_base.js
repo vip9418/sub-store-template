@@ -8,6 +8,11 @@ let proxies = await produceArtifact({
   produceType: 'internal',
 });
 
+proxies.forEach((proxy, index) => {
+  if (!proxy.tag) {
+    proxy.tag = `proxy-${index}-${Date.now()}`;
+  }
+});
 
 proxies.forEach(proxy => {
   if (!config.outbounds.find(outbound => outbound.tag === proxy.tag)) {
@@ -51,9 +56,7 @@ config.outbounds.map(i => {
   }
 });
 
-
 const compatibleOutbound = config.outbounds.find(o => o.tag === "compatible");
-
 
 config.outbounds.forEach(outbound => {
   if (outbound.tag === "proxy" && Array.isArray(outbound.outbounds) && outbound.outbounds.length === 0 && compatibleOutbound) {
