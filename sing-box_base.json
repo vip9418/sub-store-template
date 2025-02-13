@@ -310,11 +310,6 @@
       "outbounds": []
     },
     {
-      "tag": "all",
-      "type": "selector",
-      "outbounds": []
-    },
-    {
       "tag": "hk-auto",
       "type": "urltest",
       "outbounds": ["hk"],
@@ -354,6 +349,11 @@
       "interval": "1m",
       "tolerance": 50
     },
+    {
+      "tag": "all",
+      "type": "selector",
+      "outbounds": []
+    },    
     {
       "tag": "all-auto",
       "type": "urltest",
