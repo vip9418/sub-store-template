@@ -8,12 +8,12 @@
     "servers": [
       {
         "tag": "google",
-        "address": "https://8.8.8.8/dns-query",  // 修正DNS地址
+        "address": "https://8.8.8.8/dns-query", 
         "detour": "proxy"
       },
       {
         "tag": "tx",
-        "address": "https://120.53.53.53/dns-query",  // 使用国内可靠DNS
+        "address": "https://120.53.53.53/dns-query",  
         "detour": "direct"
       },
       {
@@ -23,7 +23,7 @@
     ],
     "rules": [
       {
-        "outbound": "any",  // 保持原始规则
+        "outbound": "any", 
         "server": "tx",
         "disable_cache": true
       },
@@ -36,7 +36,7 @@
         "server": "fakeip"
       },
       {
-        "query_type": ["A", "AAAA"],  // 合并重复规则
+        "query_type": ["A", "AAAA"], 
         "server": "fakeip",
         "rewrite_ttl": 1
       },
@@ -45,7 +45,7 @@
         "server": "tx"
       }
     ],
-    "final": "google",  // 修正最终查询服务器
+    "final": "google", 
     "independent_cache": true
   },
   "route": {
@@ -54,23 +54,23 @@
       {"ip_is_private": true, "outbound": "direct"},
       {"clash_mode": "Direct", "outbound": "direct"},
       {"clash_mode": "Global", "outbound": "GLOBAL"},
-      // 整合服务规则
+      
       {"rule_set": "bilibili", "outbound": "bilibili"},
       {"rule_set": ["geoip-netflix", "geosite-netflix"], "outbound": "netflix"},
       {"rule_set": ["geoip-google", "geosite-google"], "outbound": "google"},
       {"rule_set": ["geoip-apple", "geosite-apple"], "outbound": "apple"},
       {"rule_set": ["geoip-telegram", "geosite-telegram"], "outbound": "telegram"},
-      {"rule_set": ["geoip-cn", "geosite-cn"], "outbound": "direct"},  // 合并国内规则
+      {"rule_set": ["geoip-cn", "geosite-cn"], "outbound": "direct"},  
       {"rule_set": "geolocation-!cn", "outbound": "proxy"}
     ],
     "rule_set": [
-      // 保持核心规则集
+     
       {"tag":"geoip-apple","type":"remote","format":"binary","url":"https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/apple.srs","download_detour":"direct"},
       {"tag":"geosite-apple","type":"remote","format":"binary","url":"https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/apple.srs","download_detour":"direct"},
       {"tag":"bilibili","type":"remote","format":"binary","url":"https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/bilibili.srs","download_detour":"direct"},
       {"tag":"geoip-cn","type":"remote","format":"binary","url":"https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs","download_detour":"direct"},
       {"tag":"geosite-cn","type":"remote","format":"binary","url":"https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs","download_detour":"direct"},
-      // 新增必要服务规则
+     
       {"tag":"geoip-netflix","type":"remote","format":"binary","url":"https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/netflix.srs","download_detour":"direct"},
       {"tag":"geosite-netflix","type":"remote","format":"binary","url":"https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/netflix.srs","download_detour":"direct"}
     ],
@@ -78,7 +78,7 @@
     "auto_detect_interface": true
   },
   "outbounds": [
-    // 核心outbound配置
+  
     {
       "tag": "proxy",
       "type": "selector",
@@ -89,14 +89,14 @@
       "tag": "direct",
       "type": "direct"
     },
-    // 服务专用outbound
+ 
     {
       "tag": "netflix",
       "type": "selector",
       "outbounds": ["proxy", "hk", "tw", "jp"],
       "default": "proxy"
     },
-    // 自动测试节点
+  
     {
       "tag": "hk-auto",
       "type": "urltest",
@@ -111,7 +111,7 @@
       "stack": "system",
       "auto_route": true,
       "sniff": true,
-      "strict_route": true,  // 新增v1.11参数
+      "strict_route": true, 
       "mtu": 9000
     },
     {
@@ -124,13 +124,13 @@
   "experimental": {
     "clash_api": {
       "external_controller": "0.0.0.0:9090",
-      "external_ui": "ui",  // 使用内置UI路径
+      "external_ui": "ui",  
       "external_ui_download_url": "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip",
       "external_ui_download_detour": "proxy"
     },
     "cache_file": {
       "enabled": true,
-      "store_fakeip": true  // 修正缓存设置
+      "store_fakeip": true  
     }
   },
   "log": {
