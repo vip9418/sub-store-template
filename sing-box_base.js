@@ -43,12 +43,6 @@ config.outbounds.map(i => {
   if (['de', 'de-auto'].includes(i.tag)) {
     i.outbounds.push(...getTags(proxies, /德|de|germany|🇩🇪/i))
   }
-  if (['fr', 'fr-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /法|fr|france|🇫🇷/i))
-  }
-  if (['nl', 'nl-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /荷|nl|netherlands|holland|🇳🇱/i))
-  }
 })
 
 config.outbounds.forEach(outbound => {
