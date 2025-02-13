@@ -36,10 +36,7 @@
         "server": "fakeip"
       },
       {
-        "query_type": [
-          "A",
-          "AAAA"
-        ],
+        "query_type": ["A", "AAAA"],
         "server": "fakeip",
         "rewrite_ttl": 1
       },
@@ -74,10 +71,7 @@
         "outbound": "bilibili"
       },
       {
-        "rule_set": [
-          "geoip-netflix",
-          "geosite-netflix"
-        ],
+        "rule_set": ["geoip-netflix", "geosite-netflix"],
         "outbound": "netflix"
       },
       {
@@ -93,31 +87,19 @@
         "outbound": "openai"
       },
       {
-        "rule_set": [
-          "geoip-google",
-          "geosite-google"
-        ],
+        "rule_set": ["geoip-google", "geosite-google"],
         "outbound": "google"
       },
       {
-        "rule_set": [
-          "geoip-apple",
-          "geosite-apple"
-        ],
+        "rule_set": ["geoip-apple", "geosite-apple"],
         "outbound": "apple"
       },
       {
-        "rule_set": [
-          "geoip-telegram",
-          "geosite-telegram"
-        ],
+        "rule_set": ["geoip-telegram", "geosite-telegram"],
         "outbound": "telegram"
       },
       {
-        "rule_set": [
-          "geoip-cn",
-          "geosite-cn"
-        ],
+        "rule_set": ["geoip-cn", "geosite-cn"],
         "outbound": "cn"
       },
       {
@@ -239,381 +221,201 @@
     {
       "tag": "proxy",
       "type": "selector",
-      "outbounds": [
-        "hk",
-        "hk-auto",
-        "tw",
-        "tw-auto",
-        "jp",
-        "jp-auto",
-        "sg",
-        "sg-auto",
-        "us",
-        "us-auto",
-        "all",
-        "all-auto",
-        "direct"
-      ],
+      "outbounds": ["hk", "hk-auto", "tw", "tw-auto", "jp", "jp-auto", "sg", "sg-auto", "us", "us-auto", "all", "all-auto"],
       "default": "all-auto"
     },
     {
       "tag": "google",
       "type": "selector",
-      "outbounds": [
-        "proxy",
-        "direct",
-        "hk",
-        "hk-auto",
-        "tw",
-        "tw-auto",
-        "jp",
-        "jp-auto",
-        "sg",
-        "sg-auto",
-        "us",
-        "us-auto",
-        "all",
-        "all-auto"
-      ],
+      "outbounds": ["proxy", "direct", "hk-auto", "tw-auto", "jp-auto", "sg-auto", "us-auto"],
       "default": "proxy"
     },
     {
       "tag": "apple",
       "type": "selector",
-      "outbounds": [
-        "proxy",
-        "direct",
-        "hk",
-        "hk-auto",
-        "tw",
-        "tw-auto",
-        "jp",
-        "jp-auto",
-        "sg",
-        "sg-auto",
-        "us",
-        "us-auto",
-        "all",
-        "all-auto"
-      ],
+      "outbounds": ["proxy", "direct", "hk-auto", "tw-auto", "jp-auto", "sg-auto", "us-auto"],
       "default": "direct"
     },
     {
       "tag": "telegram",
       "type": "selector",
-      "outbounds": [
-        "proxy",
-        "direct",
-        "hk",
-        "hk-auto",
-        "tw",
-        "tw-auto",
-        "jp",
-        "jp-auto",
-        "sg",
-        "sg-auto",
-        "us",
-        "us-auto",
-        "all",
-        "all-auto"
-      ],
+      "outbounds": ["proxy", "direct", "hk-auto", "tw-auto", "jp-auto", "sg-auto", "us-auto"],
       "default": "proxy"
     },
     {
       "tag": "bilibili",
       "type": "selector",
-      "outbounds": [
-        "proxy",
-        "direct",
-        "hk",
-        "hk-auto",
-        "tw",
-        "tw-auto",
-        "jp",
-        "jp-auto",
-        "sg",
-        "sg-auto",
-        "us",
-        "us-auto",
-        "all",
-        "all-auto"
-      ],
+      "outbounds": ["direct", "proxy"],
       "default": "direct"
     },
     {
       "tag": "netflix",
       "type": "selector",
-      "outbounds": [
-        "proxy",
-        "direct",
-        "hk",
-        "hk-auto",
-        "tw",
-        "tw-auto",
-        "jp",
-        "jp-auto",
-        "sg",
-        "sg-auto",
-        "us",
-        "us-auto",
-        "all",
-        "all-auto"
-      ],
+      "outbounds": ["proxy", "direct", "hk-auto", "tw-auto", "jp-auto", "sg-auto", "us-auto"],
       "default": "proxy"
     },
     {
       "tag": "bahamut",
       "type": "selector",
-      "outbounds": [
-        "proxy",
-        "direct",
-        "hk",
-        "hk-auto",
-        "tw",
-        "tw-auto",
-        "jp",
-        "jp-auto",
-        "sg",
-        "sg-auto",
-      ],
+      "outbounds": ["proxy", "direct", "hk-auto", "tw-auto", "jp-auto", "sg-auto", "us-auto"],
       "default": "proxy"
     },
-      {
-        "tag": "youtube",
-        "type": "selector",
-        "outbounds": [
-          "proxy",
-          "direct",
-          "hk",
-          "hk-auto",
-          "tw",
-          "tw-auto",
-          "jp",
-          "jp-auto",
-          "sg",
-          "sg-auto",
-          "us",
-          "us-auto",
-          "all",
-          "all-auto"
-        ],
-        "default": "proxy"
-      },
-      {
-        "tag": "openai",
-        "type": "selector",
-        "outbounds": [
-          "proxy",
-          "direct",
-          "hk",
-          "hk-auto",
-          "tw",
-          "tw-auto",
-          "jp",
-          "jp-auto",
-          "sg",
-          "sg-auto",
-          "us",
-          "us-auto",
-          "all",
-          "all-auto"
-        ],
-        "default": "proxy"
-      },
-      {
-        "tag": "cn",
-        "type": "selector",
-        "outbounds": [
-          "proxy",
-          "direct",
-          "hk",
-          "hk-auto",
-          "tw",
-          "tw-auto",
-          "jp",
-          "jp-auto",
-          "sg",
-          "sg-auto",
-          "us",
-          "us-auto",
-          "all",
-          "all-auto"
-        ],
-        "default": "direct"
-      },
-      {
-        "tag": "final",
-        "type": "selector",
-        "outbounds": [
-          "proxy",
-          "direct",
-          "hk",
-          "hk-auto",
-          "tw",
-          "tw-auto",
-          "jp",
-          "jp-auto",
-          "sg",
-          "sg-auto",
-          "us",
-          "us-auto",
-          "all",
-          "all-auto"
-        ],
-        "default": "proxy"
-      },
-      {
-        "tag": "hk",
-        "type": "selector",
-        "outbounds": []
-      },
-      {
-        "tag": "tw",
-        "type": "selector",
-        "outbounds": []
-      },
-      {
-        "tag": "jp",
-        "type": "selector",
-        "outbounds": []
-      },
-      {
-        "tag": "sg",
-        "type": "selector",
-        "outbounds": []
-      },
-      {
-        "tag": "us",
-        "type": "selector",
-        "outbounds": []
-      },
-      {
+    {
+      "tag": "youtube",
+      "type": "selector",
+      "outbounds": ["proxy", "direct", "hk-auto", "tw-auto", "jp-auto", "sg-auto", "us-auto"],
+      "default": "proxy"
+    },
+    {
+      "tag": "openai",
+      "type": "selector",
+      "outbounds": ["proxy", "direct", "hk-auto", "tw-auto", "jp-auto", "sg-auto", "us-auto"],
+      "default": "proxy"
+    },
+    {
+      "tag": "cn",
+      "type": "selector",
+      "outbounds": ["direct", "proxy"],
+      "default": "direct"
+    },
+    {
+      "tag": "final",
+      "type": "selector",
+      "outbounds": ["proxy", "direct"],
+      "default": "proxy"
+    },
+    {
+      "tag": "hk",
+      "type": "selector",
+      "outbounds": []
+    },
+    {
+      "tag": "tw",
+      "type": "selector",
+      "outbounds": []
+    },
+    {
+      "tag": "jp",
+      "type": "selector",
+      "outbounds": []
+    },
+    {
+      "tag": "sg",
+      "type": "selector",
+      "outbounds": []
+    },
+    {
+      "tag": "us",
+      "type": "selector",
+      "outbounds": []
+    },
+    {
       "tag": "all",
       "type": "selector",
       "outbounds": []
-      },
-      {
-        "tag": "hk-auto",
-        "type": "urltest",
-        "outbounds": [],
-        "url": "https://www.gstatic.com/generate_204",
-        "interval": "1m",
-        "tolerance": 50
-      },
-      {
-        "tag": "tw-auto",
-        "type": "urltest",
-        "outbounds": [],
-        "url": "https://www.gstatic.com/generate_204",
-        "interval": "1m",
-        "tolerance": 50
-      },
-      {
-        "tag": "jp-auto",
-        "type": "urltest",
-        "outbounds": [],
-        "url": "https://www.gstatic.com/generate_204",
-        "interval": "1m",
-        "tolerance": 50
-      },
-      {
-        "tag": "sg-auto",
-        "type": "urltest",
-        "outbounds": [],
-        "url": "https://www.gstatic.com/generate_204",
-        "interval": "1m",
-        "tolerance": 50
-      },
-      {
-        "tag": "us-auto",
-        "type": "urltest",
-        "outbounds": [],
-        "url": "https://www.gstatic.com/generate_204": "direct"
-      },
-      {
-        "tag": "all-auto",
-        "type": "urltest",
-        "outbounds": [],
-        "url": "https://www.gstatic.com/generate_204",
-        "interval": "1m",
-        "tolerance": 50
-      },
-      {
-        "tag": "GLOBAL",
-        "type": "selector",
-        "outbounds": [
-          "direct",
-          "proxy",
-          "hk",
-          "hk-auto",
-          "tw",
-          "tw-auto",
-          "jp",
-          "jp-auto",
-          "sg",
-          "sg-auto",
-          "us",
-          "us-auto",
-          "all",
-          "all-auto"
-        ],
-        "default": "direct"
-      },
-      {
-        "tag": "direct",
-        "type": "direct"
-      },
-      {
-        "tag": "dns-out",
-        "type": "dns"
-      }
-    ],
-    "inbounds": [
-      {
-        "type": "tun",
-        "address": [
-          "172.19.0.0/30",
-          "fdfe:dcba:9876::0/126"
-        ],
-        "stack": "system",
-        "auto_route": true,
-        "sniff": true,
-        "platform": {
-          "http_proxy": {
-            "enabled": true,
-            "server": "127.0.0.1",
-            "server_port": 7890
-          }
+    },
+    {
+      "tag": "hk-auto",
+      "type": "urltest",
+      "outbounds": ["hk"],
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": "1m",
+      "tolerance": 50
+    },
+    {
+      "tag": "tw-auto",
+      "type": "urltest",
+      "outbounds": ["tw"],
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": "1m",
+      "tolerance": 50
+    },
+    {
+      "tag": "jp-auto",
+      "type": "urltest",
+      "outbounds": ["jp"],
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": "1m",
+      "tolerance": 50
+    },
+    {
+      "tag": "sg-auto",
+      "type": "urltest",
+      "outbounds": ["sg"],
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": "1m",
+      "tolerance": 50
+    },
+    {
+      "tag": "us-auto",
+      "type": "urltest",
+      "outbounds": ["us"],
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": "1m",
+      "tolerance": 50
+    },
+    {
+      "tag": "all-auto",
+      "type": "urltest",
+      "outbounds": ["all"],
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": "1m",
+      "tolerance": 50
+    },
+    {
+      "tag": "GLOBAL",
+      "type": "selector",
+      "outbounds": ["proxy", "direct"],
+      "default": "proxy"
+    },
+    {
+      "tag": "direct",
+      "type": "direct"
+    },
+    {
+      "tag": "dns-out",
+      "type": "dns"
+    }
+  ],
+  "inbounds": [
+    {
+      "type": "tun",
+      "address": ["172.19.0.0/30", "fdfe:dcba:9876::0/126"],
+      "stack": "system",
+      "auto_route": true,
+      "sniff": true,
+      "platform": {
+        "http_proxy": {
+          "enabled": true,
+          "server": "127.0.0.1",
+          "server_port": 7890
         }
-      },
-      {
-        "type": "mixed",
-        "listen": "127.0.0.1": "direct"
-      },
-      {
-        "listen_port": 7890,
-        "sniff": true
-      }
-    ],
-    "experimental": {
-      "clash_api": {
-        "external_controller": "0.0.0.0:9090",
-        "external_ui": "/etc/sing-box/ui",
-        "secret": "",
-        "external_ui_download_url": "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip",
-        "external_ui_download_detour": "proxy"
-      },
-      "cache_file": {
-        "enabled": true,
-        "path": "/etc/sing-box/cache.db",
-        "store_fakeip": false
       }
     },
-    "log": {
-      "disabled": false,
-      "level": "info",
-      "timestamp": true
+    {
+      "type": "mixed",
+      "listen": "127.0.0.1",
+      "listen_port": 7890,
+      "sniff": true
     }
+  ],
+  "experimental": {
+    "clash_api": {
+      "external_controller": "0.0.0.0:9090",
+      "external_ui": "/etc/sing-box/ui",
+      "secret": "",
+      "external_ui_download_url": "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip",
+      "external_ui_download_detour": "proxy"
+    },
+    "cache_file": {
+      "enabled": true,
+      "path": "/etc/sing-box/cache.db",
+      "store_fakeip": false
+    }
+  },
+  "log": {
+    "disabled": false,
+    "level": "info",
+    "timestamp": true
   }
-
-
+}
