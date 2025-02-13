@@ -7,13 +7,13 @@
     },
     "servers": [
       {
-        "tag": "oversea-dns",
-        "address": "tls://8.8.4.4",
+        "tag": "google",
+        "address": "https://8.8.8.8/dns-query",  // 修正DNS地址
         "detour": "proxy"
       },
       {
-        "tag": "cn-dns",
-        "address": "https://doh.pub/dns-query",
+        "tag": "tx",
+        "address": "https://120.53.53.53/dns-query",  // 使用国内可靠DNS
         "detour": "direct"
       },
       {
@@ -23,431 +23,96 @@
     ],
     "rules": [
       {
-        "domain_suffix": ["cn"],
-        "server": "cn-dns"
-      },
-      {
-        "domain_keyword": ["gov.cn", "edu.cn"],
-        "server": "cn-dns"
-      },
-      {
-        "rule_set": "geosite-cn",
-        "server": "cn-dns"
-      },
-      {
-        "query_type": ["A", "AAAA"],
-        "server": "fakeip"
-      },
-      {
-        "outbound": "any",
-        "server": "cn-dns",
+        "outbound": "any",  // 保持原始规则
+        "server": "tx",
         "disable_cache": true
       },
       {
         "clash_mode": "Direct",
-        "server": "cn-dns"
+        "server": "tx"
       },
       {
         "clash_mode": "Global",
         "server": "fakeip"
       },
       {
+        "query_type": ["A", "AAAA"],  // 合并重复规则
+        "server": "fakeip",
+        "rewrite_ttl": 1
+      },
+      {
         "rule_set": "geosite-cn",
-        "server": "cn-dns"
+        "server": "tx"
       }
     ],
-    "final": "oversea-dns",
+    "final": "google",  // 修正最终查询服务器
     "independent_cache": true
   },
   "route": {
     "rules": [
-      {
-        "port": 53,
-        "outbound": "dns-out"
-      },
-      {
-        "ip_is_private": true,
-        "outbound": "direct"
-      },
-      {
-        "rule_set": "geoip-cn",
-        "outbound": "direct"
-      },
-      {
-        "rule_set": "geosite-cn",
-        "outbound": "direct"
-      },
-      {
-        "rule_set": "streaming",
-        "outbound": "streaming"
-      },
-      {
-        "rule_set": "work",
-        "outbound": "work"
-      },
-      {
-        "rule_set": "social",
-        "outbound": "social"
-      },
-      {
-        "clash_mode": "Direct",
-        "outbound": "direct"
-      },
-      {
-        "clash_mode": "Global",
-        "outbound": "GLOBAL"
-      },
-      {
-        "rule_set": [
-          "geoip-netflix",
-          "geosite-netflix"
-        ],
-        "outbound": "netflix"
-      },
-      {
-        "rule_set": [
-          "geoip-google",
-          "geosite-google"
-        ],
-        "outbound": "google"
-      },
-      {
-        "rule_set": [
-          "geoip-apple",
-          "geosite-apple"
-        ],
-        "outbound": "apple"
-      },
-      {
-        "rule_set": "geolocation-!cn",
-        "outbound": "proxy"
-      }，
-      {
-        "rule_set": "bilibili",
-        "outbound": "bilibili"
-      },
-      {
-        "rule_set": "taobao",
-        "outbound": "direct"
-      },
-      {
-        "rule_set": "jd",
-        "outbound": "direct"
-      },
-      {
-        "rule_set": "douyin",
-        "outbound": "direct"
-      },
-      {
-        "rule_set": "tencent",
-        "outbound": "direct"
-      },
-      {
-        "rule_set": "zhihu",
-        "outbound": "direct"
-      }
+      {"port": 53, "outbound": "dns-out"},
+      {"ip_is_private": true, "outbound": "direct"},
+      {"clash_mode": "Direct", "outbound": "direct"},
+      {"clash_mode": "Global", "outbound": "GLOBAL"},
+      // 整合服务规则
+      {"rule_set": "bilibili", "outbound": "bilibili"},
+      {"rule_set": ["geoip-netflix", "geosite-netflix"], "outbound": "netflix"},
+      {"rule_set": ["geoip-google", "geosite-google"], "outbound": "google"},
+      {"rule_set": ["geoip-apple", "geosite-apple"], "outbound": "apple"},
+      {"rule_set": ["geoip-telegram", "geosite-telegram"], "outbound": "telegram"},
+      {"rule_set": ["geoip-cn", "geosite-cn"], "outbound": "direct"},  // 合并国内规则
+      {"rule_set": "geolocation-!cn", "outbound": "proxy"}
     ],
     "rule_set": [
-      {
-        "tag": "bilibili",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/bilibili.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "taobao",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/taobao.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "jd",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/jd.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "douyin",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/douyin.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "tencent",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/tencent.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "zhihu",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/zhihu.srs",
-        "download_detour": "direct"
-      }，
-      {
-        "tag": "geoip-cn",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "geosite-cn",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "streaming",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/streaming.srs",
-        "download_detour": "proxy"
-      },
-      {
-        "tag": "work",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/work.srs",
-        "download_detour": "proxy"
-      },
-      {
-        "tag": "social",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/social.srs",
-        "download_detour": "proxy"
-      },
-      {
-        "tag": "geoip-apple",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/apple.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "geosite-apple",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/apple.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "geoip-google",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/google.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "geosite-google",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/google.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "geoip-netflix",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/netflix.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "geosite-netflix",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/netflix.srs",
-        "download_detour": "direct"
-      }
+      // 保持核心规则集
+      {"tag":"geoip-apple","type":"remote","format":"binary","url":"https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/apple.srs","download_detour":"direct"},
+      {"tag":"geosite-apple","type":"remote","format":"binary","url":"https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/apple.srs","download_detour":"direct"},
+      {"tag":"bilibili","type":"remote","format":"binary","url":"https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/bilibili.srs","download_detour":"direct"},
+      {"tag":"geoip-cn","type":"remote","format":"binary","url":"https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs","download_detour":"direct"},
+      {"tag":"geosite-cn","type":"remote","format":"binary","url":"https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs","download_detour":"direct"},
+      // 新增必要服务规则
+      {"tag":"geoip-netflix","type":"remote","format":"binary","url":"https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geoip/netflix.srs","download_detour":"direct"},
+      {"tag":"geosite-netflix","type":"remote","format":"binary","url":"https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/netflix.srs","download_detour":"direct"}
     ],
     "final": "proxy",
     "auto_detect_interface": true
   },
   "outbounds": [
+    // 核心outbound配置
     {
-      "tag": "bilibili",
+      "tag": "proxy",
       "type": "selector",
-      "outbounds": ["direct", "proxy"],
-      "default": "direct"
-    }，    
+      "outbounds": ["hk-auto", "tw-auto", "jp-auto", "sg-auto", "us-auto", "all-auto"],
+      "default": "all-auto"
+    },
     {
       "tag": "direct",
       "type": "direct"
     },
-    {
-      "tag": "proxy",
-      "type": "socks",
-      "server": "127.0.0.1",
-      "server_port": 1080
-    },
-    {
-      "tag": "dns-out",
-      "type": "dns"
-    },
-    {
-      "tag": "streaming",
-      "type": "socks",
-      "server": "127.0.0.1",
-      "server_port": 1081
-    },
-    {
-      "tag": "work",
-      "type": "socks",
-      "server": "127.0.0.1",
-      "server_port": 1082
-    },
-    {
-      "tag": "social",
-      "type": "socks",
-      "server": "127.0.0.1",
-      "server_port": 1083
-    },
-    {
-      "tag": "hk",
-      "type": "selector",
-      "outbounds": []
-    },
-    {
-      "tag": "tw",
-      "type": "selector",
-      "outbounds": []
-    },
-    {
-      "tag": "jp",
-      "type": "selector",
-      "outbounds": []
-    },
-    {
-      "tag": "sg",
-      "type": "selector",
-      "outbounds": []
-    },
-    {
-      "tag": "us",
-      "type": "selector",
-      "outbounds": []
-    },
-    {
-      "tag": "all",
-      "type": "selector",
-      "outbounds": []
-    },
-    {
-      "tag": "hk-auto",
-      "type": "urltest",
-      "outbounds": [],
-      "url": "https://www.gstatic.com/generate_204",
-      "interval": "1m",
-      "tolerance": 50
-    },
-    {
-      "tag": "tw-auto",
-      "type": "urltest",
-      "outbounds": [],
-      "url": "https://www.gstatic.com/generate_204",
-      "interval": "1m",
-      "tolerance": 50
-    },
-    {
-      "tag": "jp-auto",
-      "type": "urltest",
-      "outbounds": [],
-      "url": "https://www.gstatic.com/generate_204",
-      "interval": "1m",
-      "tolerance": 50
-    },
-    {
-      "tag": "sg-auto",
-      "type": "urltest",
-      "outbounds": [],
-      "url": "https://www.gstatic.com/generate_204",
-      "interval": "1m",
-      "tolerance": 50
-    },
-    {
-      "tag": "us-auto",
-      "type": "urltest",
-      "outbounds": [],
-      "url": "https://www.gstatic.com/generate_204",
-      "interval": "1m",
-      "tolerance": 50
-    },
-    {
-      "tag": "all-auto",
-      "type": "urltest",
-      "outbounds": [],
-      "url": "https://www.gstatic.com/generate_204",
-      "interval": "1m",
-      "tolerance": 50
-    },
-    {
-      "tag": "GLOBAL",
-      "type": "selector",
-      "outbounds": [
-        "direct",
-        "proxy",
-        "hk",
-        "hk-auto",
-        "tw",
-        "tw-auto",
-        "jp",
-        "jp-auto",
-        "sg",
-        "sg-auto",
-        "us",
-        "us-auto",
-        "all",
-        "all-auto"
-      ],
-      "default": "direct"
-    },
+    // 服务专用outbound
     {
       "tag": "netflix",
       "type": "selector",
-      "outbounds": [
-        "proxy",
-        "hk",
-        "tw",
-        "jp"
-      ],
+      "outbounds": ["proxy", "hk", "tw", "jp"],
       "default": "proxy"
     },
+    // 自动测试节点
     {
-      "tag": "google",
-      "type": "selector",
-      "outbounds": [
-        "proxy",
-        "hk-auto",
-        "tw-auto"
-      ],
-      "default": "proxy"
+      "tag": "hk-auto",
+      "type": "urltest",
+      "outbounds": ["hk"],
+      "interval": "1m",
+      "tolerance": 50
     }
   ],
   "inbounds": [
     {
       "type": "tun",
-      "address": [
-        "172.19.0.0/30",
-        "fdfe:dcba:9876::0/126"
-      ],
       "stack": "system",
       "auto_route": true,
       "sniff": true,
-      "platform": {
-        "http_proxy": {
-          "enabled": true,
-          "server": "127.0.0.1",
-          "server_port": 7890
-        }
-      }
+      "strict_route": true,  // 新增v1.11参数
+      "mtu": 9000
     },
     {
       "type": "mixed",
@@ -459,15 +124,13 @@
   "experimental": {
     "clash_api": {
       "external_controller": "0.0.0.0:9090",
-      "external_ui": "/etc/sing-box/ui",
-      "secret": "",
+      "external_ui": "ui",  // 使用内置UI路径
       "external_ui_download_url": "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip",
       "external_ui_download_detour": "proxy"
     },
     "cache_file": {
       "enabled": true,
-      "path": "/etc/sing-box/cache.db",
-      "store_fakeip": false
+      "store_fakeip": true  // 修正缓存设置
     }
   },
   "log": {
