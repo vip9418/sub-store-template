@@ -225,12 +225,10 @@
         "url": "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community/data/games.txt",
         "download_detour": "proxy"
       },
-       {
+      // Modified direct rule:
+      {
         "tag": "direct",
-        "type": "local",
-        "format": "binary",
-        "source": "direct.rule",
-        "download_detour": "direct"
+        "type": "direct" // Remove local type and source field
       }
     ],
     "final": "final",
