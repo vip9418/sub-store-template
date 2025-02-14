@@ -50,7 +50,7 @@ log(`④ outbound 插入节点`)
 config.outbounds.map(outbound => {
   outbounds.map(([outboundPattern, tagRegex]) => {
     const outboundRegex = createOutboundRegExp(outboundPattern)
-    if (outboundRegex.test(outbound.tag)) {
+    if (outboundRegex.test(outbound.tag) && outbound.type !== 'urltest') { 
       if (!Array.isArray(outbound.outbounds)) {
         outbound.outbounds = []
       }
@@ -60,6 +60,7 @@ config.outbounds.map(outbound => {
     }
   })
 })
+
 
 const compatible_outbound = {
   tag: 'COMPATIBLE',
