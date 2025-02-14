@@ -87,6 +87,13 @@ config.outbounds.map(outbound => {
   })
 })
 
+config.outbounds.forEach(outbound => {
+  if (outbound.type === "urltest" && outbound.outbounds?.length === 0) {
+    outbound.outbounds.push("auto-fallback-direct");
+    log(`⚠️ 自动填充 ${outbound.tag} 的 fallback 节点`);
+  }
+});
+
 config.outbounds.push(...proxies)
 
 $content = JSON.stringify(config, null, 2)
