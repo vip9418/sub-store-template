@@ -1,6 +1,10 @@
 // 🚀 sing-box 模板脚本，用于处理机场订阅
 log(`🚀 开始`);
 
+// type=组合订阅
+// name=机场
+// outbound=🕳ℹ️all|all-auto🕳ℹ️hk|hk-auto🏷ℹ️港|hk|hongkong|kong kong|🇭🇰🕳ℹ️tw|tw-auto🏷ℹ️台|tw|taiwan|🇹🇼🕳ℹ️jp|jp-auto🏷ℹ️日本|jp|japan|🇯🇵🕳ℹ️sg|sg-auto🏷ℹ️^(?!.*(?:us)).*(新|sg|singapore|🇸🇬)🕳ℹ️us|us-auto🏷ℹ️美|us|unitedstates|united states|🇺🇸
+
 // 读取传入参数
 let { type, name, outbound, includeUnsupportedProxy, url } = $arguments;
 
